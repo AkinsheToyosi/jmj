@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // initPerformanceCounters();
   init3DGlobe();
   initTestimonialWall();
+  initJmjAdvantage();
+  initResultsGallery();
+  initFaq();
 });
 
 
@@ -895,4 +898,562 @@ function initTestimonialWall() {
     // track.innerHTML = cards + cards;
   });
 }
+
+// ===== THE JMJ ADVANTAGE - 3D ANIMATIONS (FIXED) =====
+function initJmjAdvantage() {
+  // Initialize all four animations
+  initAccountAnimation(); // NEW & IMPROVED
+  initPoolAnimation();    // (same - you liked)
+  initSignalsAnimation(); // (same - you liked)
+  initMentorAnimation();  // (same - you liked)
+  
+  // Scroll reveal for rows
+  const rows = document.querySelectorAll('.service-row');
+  
+  function checkVisibility() {
+    rows.forEach((row, index) => {
+      const rect = row.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight - 100;
+      
+      if (isVisible && !row.classList.contains('visible')) {
+        // Add delay based on index for staggered effect
+        setTimeout(() => {
+          row.classList.add('visible');
+        }, index * 200);
+      }
+      
+      // Remove visibility when scrolled away (optional)
+      if (!isVisible && row.classList.contains('visible')) {
+        row.classList.remove('visible');
+      }
+    });
+  }
+  
+  window.addEventListener('scroll', checkVisibility);
+  setTimeout(checkVisibility, 100);
+}
+
+// NEW ANIMATION 1: Account Management - Rotating Golden Gears
+function initAccountAnimation() {
+  const canvas = document.getElementById('animationAccount');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let rotation = 0;
+  
+  function resize() {
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  
+  function drawGear(centerX, centerY, radius, teeth, angle, isMain = false) {
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(angle);
+    
+    // Draw gear teeth
+    ctx.beginPath();
+    for (let i = 0; i < teeth; i++) {
+      const toothAngle = (i / teeth) * Math.PI * 2;
+      const x1 = Math.cos(toothAngle) * radius;
+      const y1 = Math.sin(toothAngle) * radius;
+      const x2 = Math.cos(toothAngle) * (radius + (isMain ? 15 : 10));
+      const y2 = Math.sin(toothAngle) * (radius + (isMain ? 15 : 10));
+      
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+    }
+    
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = isMain ? 3 : 2;
+    ctx.shadowBlur = isMain ? 25 : 15;
+    ctx.shadowColor = '#d4af37';
+    ctx.stroke();
+    
+    // Draw main gear circle
+    ctx.beginPath();
+    ctx.arc(0, 0, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = isMain ? 4 : 2;
+    ctx.stroke();
+    
+    // Draw inner hub
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 0.3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(212, 175, 55, 0.3)';
+    ctx.shadowBlur = isMain ? 30 : 20;
+    ctx.fill();
+    
+    // Draw center dot
+    ctx.beginPath();
+    ctx.arc(0, 0, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#d4af37';
+    ctx.fill();
+    
+    ctx.restore();
+  }
+  
+  function drawConnection(x1, y1, x2, y2) {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.shadowBlur = 10;
+    ctx.stroke();
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    const centerX = width / 2;
+    const centerY = height / 2;
+    
+    // Main large gear (center)
+    drawGear(centerX, centerY, 50, 12, rotation, true);
+    
+    // Smaller gears around
+    const gearPositions = [
+      { x: centerX - 100, y: centerY - 60, teeth: 8, speed: -0.8 },
+      { x: centerX + 100, y: centerY + 50, teeth: 8, speed: 0.6 },
+      { x: centerX - 80, y: centerY + 80, teeth: 6, speed: 0.9 },
+      { x: centerX + 90, y: centerY - 70, teeth: 6, speed: -0.7 }
+    ];
+    
+    // Draw connections
+    gearPositions.forEach(pos => {
+      drawConnection(centerX, centerY, pos.x, pos.y);
+    });
+    
+    // Draw smaller gears
+    gearPositions.forEach((pos, index) => {
+      drawGear(pos.x, pos.y, 30, pos.teeth, rotation * pos.speed);
+    });
+    
+    // Draw glowing particles (representing energy/management)
+    for (let i = 0; i < 5; i++) {
+      const angle = Date.now() * 0.001 + i;
+      const distance = 70 + Math.sin(angle * 2) * 10;
+      const x = centerX + Math.cos(angle) * distance;
+      const y = centerY + Math.sin(angle) * distance;
+      
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#d4af37';
+      ctx.shadowBlur = 20;
+      ctx.fill();
+      
+      ctx.beginPath();
+      ctx.arc(x, y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.2)';
+      ctx.fill();
+    }
+    
+    rotation += 0.02;
+    requestAnimationFrame(draw);
+  }
+  
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+
+// ANIMATION 2: Pool Funding - Flowing Liquid/Gold Coins (unchanged - you liked)
+function initPoolAnimation() {
+  const canvas = document.getElementById('animationPool');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particles = [];
+  
+  function resize() {
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
+    
+    // Create particles
+    particles = [];
+    for (let i = 0; i < 15; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 15 + 5,
+        speed: Math.random() * 2 + 1,
+        angle: Math.random() * Math.PI * 2
+      });
+    }
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw pool/base
+    ctx.beginPath();
+    ctx.arc(width/2, height/2, 80, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(212, 175, 55, 0.1)';
+    ctx.shadowBlur = 40;
+    ctx.shadowColor = '#d4af37';
+    ctx.fill();
+    
+    // Draw flowing particles (coins)
+    particles.forEach(p => {
+      // Move particles in circular flow
+      p.x += Math.cos(p.angle) * p.speed;
+      p.y += Math.sin(p.angle) * p.speed;
+      
+      // Wrap around
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+      
+      // Draw coin
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size/2, 0, Math.PI * 2);
+      
+      // Gradient for gold effect
+      const gradient = ctx.createRadialGradient(p.x-2, p.y-2, 0, p.x, p.y, p.size);
+      gradient.addColorStop(0, '#ffd700');
+      gradient.addColorStop(0.7, '#b8860b');
+      
+      ctx.fillStyle = gradient;
+      ctx.shadowBlur = 20;
+      ctx.fill();
+      
+      // Draw "$" symbol
+      ctx.fillStyle = '#000';
+      ctx.font = `${p.size/2}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowBlur = 0;
+      ctx.fillText('$', p.x, p.y);
+    });
+    
+    requestAnimationFrame(draw);
+  }
+  
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+
+// ANIMATION 3: Live Signals - Pulsing Radar/Scanner (unchanged - you liked)
+function initSignalsAnimation() {
+  const canvas = document.getElementById('animationSignals');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let angle = 0;
+  
+  function resize() {
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw radar circles
+    for (let i = 1; i <= 4; i++) {
+      ctx.beginPath();
+      ctx.arc(width/2, height/2, 40 * i, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+    
+    // Draw scanning line
+    ctx.beginPath();
+    ctx.moveTo(width/2, height/2);
+    const scanX = width/2 + Math.cos(angle) * 160;
+    const scanY = height/2 + Math.sin(angle) * 160;
+    ctx.lineTo(scanX, scanY);
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 2;
+    ctx.shadowBlur = 20;
+    ctx.stroke();
+    
+    // Draw random signal dots
+    for (let i = 0; i < 8; i++) {
+      const dotAngle = (i / 8) * Math.PI * 2;
+      const distance = 60 + Math.sin(Date.now() * 0.002 + i) * 20;
+      const dotX = width/2 + Math.cos(dotAngle) * distance;
+      const dotY = height/2 + Math.sin(dotAngle) * distance;
+      
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#d4af37';
+      ctx.shadowBlur = 15;
+      ctx.fill();
+      
+      // Pulse effect
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.2)';
+      ctx.fill();
+    }
+    
+    angle += 0.02;
+    requestAnimationFrame(draw);
+  }
+  
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+
+// ANIMATION 4: Mentorship - Rising Staircase/Golden Path (unchanged - you liked)
+function initMentorAnimation() {
+  const canvas = document.getElementById('animationMentor');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let step = 0;
+  
+  function resize() {
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw glowing path
+    const pathWidth = 60;
+    const startX = width/4;
+    const startY = height - 50;
+    
+    for (let i = 0; i < 5; i++) {
+      const x = startX + i * 60;
+      const y = startY - i * 40 - Math.sin(step + i) * 10;
+      
+      // Draw step
+      ctx.shadowBlur = 30;
+      ctx.shadowColor = '#d4af37';
+      
+      // Step platform
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.3)';
+      ctx.fillRect(x - 30, y - 10, 60, 20);
+      
+      // Step glow
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.2)';
+      ctx.fillRect(x - 35, y - 15, 70, 30);
+      
+      // Draw "figure" on path
+      if (i === 4) {
+        ctx.beginPath();
+        ctx.arc(x, y - 25, 10, 0, Math.PI * 2);
+        ctx.fillStyle = '#d4af37';
+        ctx.shadowBlur = 20;
+        ctx.fill();
+        
+        // Glow around figure
+        ctx.beginPath();
+        ctx.arc(x, y - 25, 20, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(212, 175, 55, 0.2)';
+        ctx.fill();
+      }
+    }
+    
+    // Connecting line (path)
+    ctx.beginPath();
+    ctx.moveTo(startX - 20, startY + 10);
+    for (let i = 0; i < 5; i++) {
+      const x = startX + i * 60;
+      const y = startY - i * 40 - Math.sin(step + i) * 10 - 10;
+      ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 3;
+    ctx.shadowBlur = 15;
+    ctx.stroke();
+    
+    step += 0.05;
+    requestAnimationFrame(draw);
+  }
+  
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+
+// ===== RESULTS GALLERY - CAROUSEL & LIGHTBOX =====
+function initResultsGallery() {
+  const track = document.getElementById('carouselTrack');
+  const pages = document.querySelectorAll('.carousel-page');
+  const prevBtn = document.getElementById('prevArrow');
+  const nextBtn = document.getElementById('nextArrow');
+  const dots = document.querySelectorAll('.dot');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const closeBtn = document.querySelector('.lightbox-close');
+  const lightboxPrev = document.querySelector('.lightbox-prev');
+  const lightboxNext = document.querySelector('.lightbox-next');
+  const screenshotItems = document.querySelectorAll('.screenshot-item');
+  
+  let currentPage = 0;
+  let currentImageIndex = 0;
+  let startX, isDragging = false;
+  
+  // Update carousel position
+  function updateCarousel() {
+    track.style.transform = `translateX(-${currentPage * 100}%)`;
+    
+    // Update dots
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentPage);
+    });
+  }
+  
+  // Next page
+  function nextPage() {
+    if (currentPage < pages.length - 1) {
+      currentPage++;
+      updateCarousel();
+    }
+  }
+  
+  // Previous page
+  function prevPage() {
+    if (currentPage > 0) {
+      currentPage--;
+      updateCarousel();
+    }
+  }
+  
+  // Event listeners for arrows
+  if (prevBtn) prevBtn.addEventListener('click', prevPage);
+  if (nextBtn) nextBtn.addEventListener('click', nextPage);
+  
+  // Event listeners for dots
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      currentPage = index;
+      updateCarousel();
+    });
+  });
+  
+  // Touch/Swipe support
+  track.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  });
+  
+  track.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+  });
+  
+  track.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+    
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        nextPage(); // Swipe left
+      } else {
+        prevPage(); // Swipe right
+      }
+    }
+    
+    isDragging = false;
+  });
+  
+  // Lightbox functionality
+  screenshotItems.forEach((item, index) => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('.screenshot-img');
+      currentImageIndex = index;
+      lightboxImg.src = img.src;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  
+  // Close lightbox
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  }
+  
+  // Close on background click
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+  
+  // Navigate lightbox
+  if (lightboxPrev) {
+    lightboxPrev.addEventListener('click', () => {
+      currentImageIndex = (currentImageIndex - 1 + screenshotItems.length) % screenshotItems.length;
+      const newImg = screenshotItems[currentImageIndex].querySelector('.screenshot-img');
+      lightboxImg.src = newImg.src;
+    });
+  }
+  
+  if (lightboxNext) {
+    lightboxNext.addEventListener('click', () => {
+      currentImageIndex = (currentImageIndex + 1) % screenshotItems.length;
+      const newImg = screenshotItems[currentImageIndex].querySelector('.screenshot-img');
+      lightboxImg.src = newImg.src;
+    });
+  }
+  
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    
+    if (e.key === 'Escape') {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    } else if (e.key === 'ArrowLeft') {
+      lightboxPrev.click();
+    } else if (e.key === 'ArrowRight') {
+      lightboxNext.click();
+    }
+  });
+  
+  // Initialize first page
+  updateCarousel();
+}
+
+// ===== FAQ ACCORDION =====
+function initFaq() {
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    
+    question.addEventListener('click', () => {
+      // Close other items (optional - remove if you want multiple open)
+      faqItems.forEach(otherItem => {
+        if (otherItem !== item && otherItem.classList.contains('active')) {
+          otherItem.classList.remove('active');
+        }
+      });
+      
+      // Toggle current item
+      item.classList.toggle('active');
+    });
+  });
+}
+
+
+
 
