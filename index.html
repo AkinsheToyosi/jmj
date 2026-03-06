@@ -5,6 +5,7 @@
   <title>Forex Signals & Mentorship</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="your-logo2.jpg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -12,34 +13,40 @@
 <body>
 
 
-  <!-- HEADER -->
-<header class="header" id="header">
-  <div class="header-container">
-    <!-- Logo -->
-    <a href="/" class="logo">
-      <img src="your-logo.png" alt="Forex Signals Logo">
-    </a>
+ <!-- FLOATING PILL NAVBAR -->
+<header class="pill-header" id="header">
+  <div class="pill-container">
     
-    <!-- Desktop Navigation Links (Centered) -->
-    <nav class="nav-links">
-      <a href="#about" class="nav-link">About</a>
-      <a href="#services" class="nav-link">Services</a>
-      <a href="#contact" class="nav-link">Contact</a>
+    <!-- Logo Left -->
+    <div class="pill-logo">
+      <a href="/">
+        <img src="your-logo.jpg" alt="JMJ Trading Logo" class="logo-img">
+      </a>
+    </div>
+    
+    <!-- Navigation Middle -->
+    <nav class="pill-nav">
+      <a href="#about" class="pill-link">About</a>
+      <a href="#services" class="pill-link">Services</a>
+      <a href="#contact" class="pill-link">Contact</a>
     </nav>
     
-    <!-- Desktop Get Started Button -->
-    <a href="#get-started" class="get-started-btn">Get Started</a>
+    <!-- CTA Button Right -->
+    <div class="pill-cta">
+      <a href="#get-started" class="pill-button">Get Started</a>
+    </div>
     
-    <!-- Hamburger Menu (Mobile) -->
-    <button class="hamburger" id="hamburger">
+    <!-- Hamburger (hidden on desktop) -->
+    <button class="pill-hamburger" id="hamburger">
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
     </button>
+    
   </div>
 </header>
 
-<!-- Mobile Menu -->
+<!-- Mobile Menu (same as before) -->
 <div class="mobile-menu" id="mobileMenu">
   <nav class="mobile-nav-links">
     <a href="#about" class="mobile-nav-link">About</a>
@@ -49,9 +56,8 @@
   </nav>
 </div>
 
-<!-- Overlay for mobile menu -->
+<!-- Overlay -->
 <div class="menu-overlay" id="menuOverlay"></div>
-
 <section class="hero">
   <!-- animated chart canvas -->
   <canvas id="chartCanvas"></canvas>
@@ -66,7 +72,7 @@
     <p class="hero-subtitle">Get high-probability forex signals, expert mentorship, and secure account management designed to help you grow consistently.</p>
     <div class="hero-buttons">
       <button class="primary-btn">Get Started</button>
-      <button class="secondary-btn">View Performance</button>
+      <button class="secondary-btn">Download App</button>
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -91,7 +97,7 @@
   
   <!-- Overlapping Content -->
   <div class="globe-content">
-    <span class="globe-badge">Global Trading Network</span>
+    <!-- <span class="globe-badge">Global Trading Network</span> -->
     <h2 class="globe-title">Connected to <span class="gold-text">Markets Worldwide</span></h2>
     <p class="globe-subtitle">Real-time data from 15+ liquidity providers across the globe</p>
     
@@ -99,15 +105,15 @@
     <div class="floating-stats">
       <div class="stat-pill">
         <span class="stat-dot live"></span>
-        <span class="stat-text">12,345 Active Trades</span>
+        <span class="stat-text">Consistent Active Trades</span>
       </div>
       <div class="stat-pill">
         <span class="stat-dot live"></span>
-        <span class="stat-text">87 Countries</span>
+        <span class="stat-text">International Reach</span>
       </div>
       <div class="stat-pill">
         <span class="stat-dot live"></span>
-        <span class="stat-text">$2.4B Volume</span>
+        <span class="stat-text">$250k Volume</span>
       </div>
     </div>
   </div>
@@ -116,107 +122,420 @@
   <div class="globe-particles"></div>
 </section>
 
-
-
-<section class="how-it-works">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-badge">Your Journey Starts Here</span>
-      <h2 class="section-title">Four Ways to <span class="gold-text">Trade Smarter</span></h2>
-      <p class="section-subtitle">Choose your path to consistent profits in the financial markets</p>
+<!-- <section class="jmj-advantage-section">
+ 
+  <div class="jmj-bg">
+    <div class="jmj-grid"></div>
+    <div class="jmj-particles"></div>
+    <div class="jmj-glow"></div>
+  </div>
+  
+  <div class="jmj-container">
+    
+    <div class="jmj-header">
+      <h2 class="jmj-title">
+        <span class="sparkle">✨</span> THE JMJ ADVANTAGE <span class="sparkle">✨</span>
+      </h2>
+      <p class="jmj-subtitle">Invest. Learn. Earn.</p>
     </div>
     
-    <div class="steps-horizontal">
-      <!-- Step 1 - Pool Funding -->
-      <div class="step-circle" id="step1">
-        <div class="circle-outer">
-          <div class="circle-inner">
-            <span class="step-icon">💰</span>
-          </div>
+   
+<div class="services-container">
+  
+  
+  <div class="service-row">
+    <div class="service-animation">
+      <canvas id="animationAccount" class="service-canvas"></canvas>
+    </div>
+    <div class="service-content right">
+      <h3 class="service-title">Account Management</h3>
+      <p class="service-description">Our team of veteran traders manages your portfolio 24/7 using institutional-grade risk management.</p>
+      <div class="service-tickers">
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">15-25% APY target returns</span>
         </div>
-        <div class="circle-glow"></div>
-        <h3 class="circle-title">Pool Funding</h3>
-        <p class="circle-desc">Combine capital with other traders for larger positions and reduced risk</p>
-        <div class="circle-stats">
-          <span class="stat-badge">From $100</span>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Diversified across 6+ synthetic indices</span>
         </div>
-      </div>
-
-      <!-- Connector -->
-      <div class="circle-connector">
-        <div class="connector-line-h"></div>
-        <div class="connector-dot-h"></div>
-      </div>
-      
-      <!-- Step 2 - Signals -->
-      <div class="step-circle" id="step2">
-        <div class="circle-outer">
-          <div class="circle-inner">
-            <span class="step-icon">📊</span>
-          </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Automatic position sizing</span>
         </div>
-        <div class="circle-glow"></div>
-        <h3 class="circle-title">Live Signals</h3>
-        <p class="circle-desc">Real-time entry alerts with 92% accuracy on synthetic indices</p>
-        <div class="circle-stats">
-          <span class="stat-badge">24/7 Alerts</span>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Daily performance reports</span>
         </div>
       </div>
-
-      <!-- Connector -->
-      <div class="circle-connector">
-        <div class="connector-line-h"></div>
-        <div class="connector-dot-h"></div>
-      </div>
-      
-      <!-- Step 3 - Account Management -->
-      <div class="step-circle" id="step3">
-        <div class="circle-outer">
-          <div class="circle-inner">
-            <span class="step-icon">⚡</span>
-          </div>
-        </div>
-        <div class="circle-glow"></div>
-        <h3 class="circle-title">Account Management</h3>
-        <p class="circle-desc">Professional traders handle your portfolio with strict risk management</p>
-        <div class="circle-stats">
-          <span class="stat-badge">15-25% APY</span>
-        </div>
-      </div>
-
-      <!-- Connector -->
-      <div class="circle-connector">
-        <div class="connector-line-h"></div>
-        <div class="connector-dot-h"></div>
-      </div>
-      
-      <!-- Step 4 - Mentorship -->
-      <div class="step-circle" id="step4">
-        <div class="circle-outer">
-          <div class="circle-inner">
-            <span class="step-icon">👨‍🏫</span>
-          </div>
-        </div>
-        <div class="circle-glow"></div>
-        <h3 class="circle-title">Mentorship</h3>
-        <p class="circle-desc">1-on-1 training from experienced traders who've been there</p>
-        <div class="circle-stats">
-          <span class="stat-badge">500+ Students</span>
-        </div>
+      <div class="service-stats">
+        <span class="stat-pill">15-25% APY</span>
+        <span class="stat-pill">Low Risk</span>
       </div>
     </div>
+  </div>
+  
+  
+  <div class="service-row reverse">
+    <div class="service-content left">
+      <h3 class="service-title">Pool Funding</h3>
+      <p class="service-description">Pool your capital with other JMJ members to access institutional-level trading opportunities.</p>
+      <div class="service-tickers">
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Start from as little as $250</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Lower spreads through collective volume</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Reduced individual risk exposure</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Monthly profit distributions</span>
+        </div>
+      </div>
+      <div class="service-stats">
+        <span class="stat-pill">From $250</span>
+        <span class="stat-pill">Collective Growth</span>
+      </div>
+    </div>
+    <div class="service-animation">
+      <canvas id="animationPool" class="service-canvas"></canvas>
+    </div>
+  </div>
+  
+  
+  <div class="service-row">
+    <div class="service-animation">
+      <canvas id="animationSignals" class="service-canvas"></canvas>
+    </div>
+    <div class="service-content right">
+      <h3 class="service-title">Live Signals</h3>
+      <p class="service-description">Instant push notifications whenever our algorithm detects high-probability setups.</p>
+      <div class="service-tickers">
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">92% accuracy across 1,000+ signals</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Entry, TP & SL included</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Volatility index • Step Index • Crash & Boom • Step</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">24/7 real-time market coverage</span>
+        </div>
+      </div>
+      <div class="service-stats">
+        <span class="stat-pill">92% Accuracy</span>
+        <span class="stat-pill">24/7 Alerts</span>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="service-row reverse">
+    <div class="service-content left">
+      <h3 class="service-title">Mentorship</h3>
+      <p class="service-description">Work directly with mentors who've traded through every market condition.</p>
+      <div class="service-tickers">
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">8-week structured program</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Personalized trade feedback</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Weekly 1-on-1 strategy sessions</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-icon">✦</span>
+          <span class="ticker-text">Lifetime community access</span>
+        </div>
+      </div>
+      <div class="service-stats">
+        <span class="stat-pill">50+ Students</span>
+        <span class="stat-pill">Personal Coaching</span>
+      </div>
+    </div>
+    <div class="service-animation">
+      <canvas id="animationMentor" class="service-canvas"></canvas>
+    </div>
+  </div>
+  
+</div>
+  </div>
+</section> -->
+
+<!-- RESULTS GALLERY SECTION -->
+<section class="results-gallery" id="resultsGallery">
+  <div class="results-container">
+    <!-- Header -->
+    <div class="results-header">
+      <!-- <span class="results-badge">Real Proof</span> -->
+      <h2 class="results-title">
+        <span> OUR TRADING RESULTS</span>
+      </h2>
+      <p class="results-subtitle">Real screenshots from real JMJ members</p>
+    </div>
     
-    <!-- Animated background elements -->
-    <div class="steps-bg">
-      <div class="bg-line"></div>
-      <div class="bg-particle"></div>
+    <!-- Carousel Container -->
+    <div class="carousel-container">
+      <!-- Main Carousel -->
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Page 1: Screenshots 1-6 -->
+        <div class="carousel-page">
+          <div class="screenshot-grid">
+            <div class="screenshot-item" data-index="1">
+              <img src="profit1.jpg" alt="Trading Profit $2,345" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$2,345</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="2">
+              <img src="profit2.jpg" alt="Trading Profit $1,890" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$1,890</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="3">
+              <img src="profit3.jpg" alt="Trading Profit $3,567" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$3,567</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="4">
+              <img src="profit4.jpg" alt="Trading Profit $4,123" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$4,123</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="5">
+              <img src="profit5.jpg" alt="Trading Profit $2,789" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$2,789</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="6">
+              <img src="profit6.jpg" alt="Trading Profit $5,432" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$5,432</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Page 2: Screenshots 7-12 -->
+        <div class="carousel-page">
+          <div class="screenshot-grid">
+            <div class="screenshot-item" data-index="7">
+              <img src="profit7.jpg" alt="Trading Profit $1,234" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$1,234</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="8">
+              <img src="profit8.jpg" alt="Trading Profit $3,890" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$3,890</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="9">
+              <img src="profit9.jpg" alt="Trading Profit $2,456" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$2,456</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="10">
+              <img src="profit10.jpg" alt="Trading Profit $6,789" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$6,789</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="11">
+              <img src="profit11.jpg" alt="Trading Profit $4,567" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$4,567</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="12">
+              <img src="profit12.jpg" alt="Trading Profit $3,210" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$3,210</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Page 3: Screenshots 13-18 -->
+        <div class="carousel-page">
+          <div class="screenshot-grid">
+            <div class="screenshot-item" data-index="13">
+              <img src="profit13.jpg" alt="Trading Profit $7,890" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$7,890</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="14">
+              <img src="profit14.jpg" alt="Trading Profit $2,345" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$2,345</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="15">
+              <img src="profit15.jpg" alt="Trading Profit $5,678" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$5,678</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="16">
+              <img src="profit16.jpg" alt="Trading Profit $4,321" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$4,321</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="17">
+              <img src="profit17.jpg" alt="Trading Profit $8,901" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$8,901</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="18">
+              <img src="profit18.jpg" alt="Trading Profit $3,456" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$3,456</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Page 4: Screenshots 19-24 -->
+        <div class="carousel-page">
+          <div class="screenshot-grid">
+            <div class="screenshot-item" data-index="19">
+              <img src="profit19.jpg" alt="Trading Profit $9,012" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$9,012</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="20">
+              <img src="profit20.jpg" alt="Trading Profit $4,567" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$4,567</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="21">
+              <img src="profit21.jpg" alt="Trading Profit $6,543" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$6,543</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="22">
+              <img src="profit22.jpg" alt="Trading Profit $3,210" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$3,210</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="23">
+              <img src="profit23.jpg" alt="Trading Profit $7,654" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$7,654</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="24">
+              <img src="profit24.jpg" alt="Trading Profit $5,432" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$5,432</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Page 5: Screenshots 25-30 -->
+        <div class="carousel-page">
+          <div class="screenshot-grid">
+            <div class="screenshot-item" data-index="25">
+              <img src="profit25.jpg" alt="Trading Profit $10,234" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$10,234</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="26">
+              <img src="profit26.jpg" alt="Trading Profit $4,890" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$4,890</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="27">
+              <img src="profit27.jpg" alt="Trading Profit $8,765" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$8,765</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="28">
+              <img src="profit28.jpg" alt="Trading Profit $6,789" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$6,789</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="29">
+              <img src="profit29.jpg" alt="Trading Profit $9,876" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$9,876</span>
+              </div>
+            </div>
+            <div class="screenshot-item" data-index="30">
+              <img src="profit30.jpg" alt="Trading Profit $7,890" class="screenshot-img">
+              <div class="screenshot-overlay">
+                <span class="profit-badge">+$7,890</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Navigation Arrows -->
+      <button class="carousel-arrow prev" id="prevArrow">◀</button>
+      <button class="carousel-arrow next" id="nextArrow">▶</button>
+      
+      <!-- Dots Indicator -->
+      <div class="carousel-dots" id="carouselDots">
+        <span class="dot active" data-page="0"></span>
+        <span class="dot" data-page="1"></span>
+        <span class="dot" data-page="2"></span>
+        <span class="dot" data-page="3"></span>
+        <span class="dot" data-page="4"></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Lightbox (Hidden by default) -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close">&times;</span>
+    <div class="lightbox-content">
+      <img src="" alt="Trading Profit" class="lightbox-img" id="lightboxImg">
+      <div class="lightbox-nav">
+        <button class="lightbox-prev">←</button>
+        <button class="lightbox-next">→</button>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="testimonial-section">
   <div class="testimonial-header">
-    <span class="testimonial-badge">Social Proof</span>
+    <!-- <span class="testimonial-badge">Social Proof</span> -->
     <h2 class="testimonial-title">What <span class="gold-text">Clients Say</span> About JMJ</h2>
     <p class="testimonial-subtitle">Join 500+ successful traders trusting our signals</p>
   </div>
@@ -228,11 +547,11 @@
       <div class="testimonial-card">
         <div class="card-header">
           <div class="client-avatar">
-            <span class="avatar-text">JD</span>
+            <span class="avatar-text">MW</span>
             <div class="avatar-glow"></div>
           </div>
           <div class="client-info">
-            <h4>John Doe</h4>
+            <h4>Micheal Wright</h4>
             <div class="client-rating">
               <span class="star">★</span>
               <span class="star">★</span>
@@ -241,12 +560,12 @@
               <span class="star">★</span>
             </div>
           </div>
-          <div class="profit-badge positive">+$12,450</div>
+          <div class="profit-badge positive">+$2,450</div>
         </div>
         <p class="testimonial-text">"The signals are incredibly accurate. I've doubled my account in 3 months using JMJ's mentorship."</p>
         <div class="card-footer">
-          <span class="trade-pair">V75 • Crash 1000</span>
-          <span class="trade-time">2 days ago</span>
+          <!-- <span class="trade-pair">V75 • Crash 1000</span>-->
+          <span class="trade-time">2 days ago</span> 
         </div>
       </div>
 
@@ -270,7 +589,7 @@
         </div>
         <p class="testimonial-text">"Account management is a game-changer. They grew my portfolio while I focused on my day job."</p>
         <div class="card-footer">
-          <span class="trade-pair">Boom 500 • V75</span>
+          <!-- <span class="trade-pair">Boom 500 • V75</span> -->
           <span class="trade-time">5 days ago</span>
         </div>
       </div>
@@ -282,7 +601,7 @@
             <div class="avatar-glow"></div>
           </div>
           <div class="client-info">
-            <h4>Michael Kim</h4>
+            <h4>Medina Kolawole</h4>
             <div class="client-rating">
               <span class="star">★</span>
               <span class="star">★</span>
@@ -295,7 +614,7 @@
         </div>
         <p class="testimonial-text">"The pool funding concept is brilliant. Lower risk, consistent returns. Already recommended to 3 friends."</p>
         <div class="card-footer">
-          <span class="trade-pair">Range Break • Step</span>
+          <!-- <span class="trade-pair">Range Break • Step</span> -->
           <span class="trade-time">1 week ago</span>
         </div>
       </div>
@@ -307,7 +626,7 @@
             <div class="avatar-glow"></div>
           </div>
           <div class="client-info">
-            <h4>Emma Roberts</h4>
+            <h4>Emmanuel Robinson</h4>
             <div class="client-rating">
               <span class="star">★</span>
               <span class="star">★</span>
@@ -316,15 +635,140 @@
               <span class="star">★</span>
             </div>
           </div>
-          <div class="profit-badge positive">+$23,100</div>
+          <div class="profit-badge positive">+$3,100</div>
         </div>
         <p class="testimonial-text">"Best decision I made this year. The signals are precise and the community support is amazing."</p>
         <div class="card-footer">
-          <span class="trade-pair">V75 • V50</span>
+          <!-- <span class="trade-pair">V75 • V50</span> -->
           <span class="trade-time">3 days ago</span>
         </div>
       </div>
       
+            <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">JD</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Janet Dolapo</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$12,450</div>
+        </div>
+        <p class="testimonial-text">"Great customer service. Smooth transaction so far, Kudos! JMJ"</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time">12 days ago</span>
+        </div>
+      </div>
+
+            <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">OA</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Olayinka Amodu</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$12,450</div>
+        </div>
+        <p class="testimonial-text">"The signals are incredibly accurate. I've doubled my account in 2 months using JMJ's mentorship."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time">2 days ago</span>
+        </div>
+      </div>
+
+            <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">HA</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Hassan Adamu</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$1,450</div>
+        </div>
+        <p class="testimonial-text">"The signals are the best i have seen. I've trippled my account in 3 months using JMJ's signals."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time">27 days ago</span>
+        </div>
+      </div>
+
+            <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">AP</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Adam Peters</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$3,450</div>
+        </div>
+        <p class="testimonial-text">"The signals are incredibly accurate. I've never regretted joining your channel. Your are good!"</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time">21 days ago</span>
+        </div>
+      </div>
+
+            <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">PO</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Prince Omoh</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$2,950</div>
+        </div>
+        <p class="testimonial-text">"The signals are incredibly accurate. I've doubled my account in 4 months using JMJ's mentorship."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time">2 days ago</span>
+        </div>
+      </div>
+
       <!-- Duplicate for seamless loop -->
       <div class="testimonial-card">
         <div class="card-header">
@@ -346,10 +790,11 @@
         </div>
         <p class="testimonial-text">"Mentorship program is worth every penny. Learned risk management that saved my account."</p>
         <div class="card-footer">
-          <span class="trade-pair">Crash 1000</span>
+          <!-- <span class="trade-pair">Crash 1000</span> -->
           <span class="trade-time">4 days ago</span>
         </div>
       </div>
+      
     </div>
   </div>
 
@@ -358,6 +803,206 @@
     <div class="testimonial-track track-left-to-right">
       <!-- First set of testimonials -->
       <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">LW</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Lisa Wright</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$9,450</div>
+        </div>
+        <p class="testimonial-text">"All i can say is MONEY WELL INVESTED. No regrets at all. I am happpppyy!!"</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time">30 days ago</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">RC</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Robert Clark</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">☆</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$4,230</div>
+        </div>
+        <p class="testimonial-text">"Pool funding helped me start with smaller capital. Now I'm consistently profitable."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">Boom 500</span> -->
+          <span class="trade-time">1 week ago</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">AG</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Alex Gandi</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$18,200</div>
+        </div>
+        <p class="testimonial-text">"The account management team is phenomenal. They grew my account while I slept."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • V50</span> -->
+          <span class="trade-time">3 days ago</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">PO</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Precio Okafor</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$1,670</div>
+        </div>
+        <p class="testimonial-text">"Mentorship changed everything. I finally understand risk management and consistency."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">Step • Range</span> -->
+          <span class="trade-time">5 days ago</span>
+        </div>
+      </div>
+      
+            <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">AT</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Ayomide Thankgod</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$9,450</div>
+        </div>
+        <p class="testimonial-text">"The Pool funding is incredibly helpful. I've doubled my funds in 3 months using JMJ's services."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time"> 2 months ago</span>
+        </div>
+      </div>
+
+            <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">LW</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Lucy wike</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$6,450</div>
+        </div>
+        <p class="testimonial-text">"I have had a lot of experiences with other FX brands, this one stands out for sure."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time">5 days ago</span>
+        </div>
+      </div>
+
+            <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">MM</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>Mark Merry</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$90,470</div>
+        </div>
+        <p class="testimonial-text">"The signals and account management are incredibly accurate. JMJ's advantage indeed."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time">12 days ago</span>
+        </div>
+      </div>
+
+            <div class="testimonial-card">
+        <div class="card-header">
+          <div class="client-avatar">
+            <span class="avatar-text">WB</span>
+            <div class="avatar-glow"></div>
+          </div>
+          <div class="client-info">
+            <h4>West Brown</h4>
+            <div class="client-rating">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <div class="profit-badge positive">+$2,450</div>
+        </div>
+        <p class="testimonial-text">"The signals are incredibly accurate. I've doubled my account in 3 months using JMJ's mentorship."</p>
+        <div class="card-footer">
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
+          <span class="trade-time">7 days ago</span>
+        </div>
+      </div>
+
+            <div class="testimonial-card">
         <div class="card-header">
           <div class="client-avatar">
             <span class="avatar-text">LW</span>
@@ -373,90 +1018,15 @@
               <span class="star">★</span>
             </div>
           </div>
-          <div class="profit-badge positive">+$9,450</div>
+          <div class="profit-badge positive">+$7,450</div>
         </div>
-        <p class="testimonial-text">"The signals are incredibly accurate. I've doubled my account in 3 months using JMJ's mentorship."</p>
+        <p class="testimonial-text">"The signals are incredibly on point. I've doubled my account in 1 month using JMJ's signal service."</p>
         <div class="card-footer">
-          <span class="trade-pair">V75 • Crash 1000</span>
+          <!-- <span class="trade-pair">V75 • Crash 1000</span> -->
           <span class="trade-time">2 days ago</span>
         </div>
       </div>
 
-      <div class="testimonial-card">
-        <div class="card-header">
-          <div class="client-avatar">
-            <span class="avatar-text">RC</span>
-            <div class="avatar-glow"></div>
-          </div>
-          <div class="client-info">
-            <h4>Robert Chen</h4>
-            <div class="client-rating">
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">☆</span>
-            </div>
-          </div>
-          <div class="profit-badge positive">+$4,230</div>
-        </div>
-        <p class="testimonial-text">"Pool funding helped me start with smaller capital. Now I'm consistently profitable."</p>
-        <div class="card-footer">
-          <span class="trade-pair">Boom 500</span>
-          <span class="trade-time">1 week ago</span>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="card-header">
-          <div class="client-avatar">
-            <span class="avatar-text">AG</span>
-            <div class="avatar-glow"></div>
-          </div>
-          <div class="client-info">
-            <h4>Alex Garcia</h4>
-            <div class="client-rating">
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-            </div>
-          </div>
-          <div class="profit-badge positive">+$18,200</div>
-        </div>
-        <p class="testimonial-text">"The account management team is phenomenal. They grew my account while I slept."</p>
-        <div class="card-footer">
-          <span class="trade-pair">V75 • V50</span>
-          <span class="trade-time">3 days ago</span>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="card-header">
-          <div class="client-avatar">
-            <span class="avatar-text">PO</span>
-            <div class="avatar-glow"></div>
-          </div>
-          <div class="client-info">
-            <h4>Priya Okafor</h4>
-            <div class="client-rating">
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-              <span class="star">★</span>
-            </div>
-          </div>
-          <div class="profit-badge positive">+$11,670</div>
-        </div>
-        <p class="testimonial-text">"Mentorship changed everything. I finally understand risk management and consistency."</p>
-        <div class="card-footer">
-          <span class="trade-pair">Step • Range</span>
-          <span class="trade-time">5 days ago</span>
-        </div>
-      </div>
-      
       <!-- Duplicate for seamless loop -->
       <div class="testimonial-card">
         <div class="card-header">
@@ -478,7 +1048,7 @@
         </div>
         <p class="testimonial-text">"Signals are fast and accurate. Best subscription I've ever had."</p>
         <div class="card-footer">
-          <span class="trade-pair">Crash 1000</span>
+          <!-- <span class="trade-pair">Crash 1000</span> -->
           <span class="trade-time">2 days ago</span>
         </div>
       </div>
@@ -490,6 +1060,131 @@
   <div class="testimonial-fade-right"></div>
 </section>
 
+<!-- DERIV BROKER SECTION -->
+<section class="deriv-section">
+  <div class="deriv-container">
+    
+    <!-- Headline -->
+    <div class="deriv-headline">
+      <span class="deriv-headline-white">We don't just trade Deriv,</span>
+      <span class="deriv-headline-gold">We trade with them</span>
+    </div>
+    
+    <!-- Clickable Image -->
+    <a href="https://track.deriv.com/_cD5KpDFtSqv1k0YPxVS0A2Nd7ZgqdRLk/1/" target="_blank" rel="noopener noreferrer" class="deriv-link">
+      <div class="deriv-image-wrapper">
+        <img src="deriv-image.png" alt="Deriv Trading Platform" class="deriv-image">
+      </div>
+    </a>
+    
+    <!-- Subtle hint (optional) -->
+    <!-- <p class="deriv-hint">Click image to register • New tab opens</p> -->
+    
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section class="faq-section" id="faq">
+  <div class="faq-container">
+    
+    <!-- Headline - reduced padding -->
+    <h2 class="faq-title">FREQUENTLY ASKED QUESTIONS</h2>
+    
+    <!-- FAQ Grid -->
+    <div class="faq-grid">
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">01</span> -->
+          <h3>How do I start with JMJ?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>Simply create an account, choose your preferred service (Pool Funding, Signals, Account Management, or Mentorship), and complete the verification process. Most users are fully set up within 24 hours.</p>
+        </div>
+      </div>
+      
+     
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">02</span> -->
+          <h3>What's the minimum deposit?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>For Pool Funding, you can start with as little as $100. Signals and Mentorship have different entry points starting from $50/month. Account Management typically requires a minimum of $1,000.</p>
+        </div>
+      </div>
+      
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">03</span> -->
+          <h3>Can I withdraw my funds anytime?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>Yes. Pool Funding has monthly liquidity windows, while personal accounts under Signals and Mentorship allow withdrawals anytime. Account Management has a 30-day notice period for larger withdrawals.</p>
+        </div>
+      </div>
+      
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">04</span> -->
+          <h3>Which broker do you use?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>We trade exclusively on Deriv, a regulated broker specializing in synthetic indices. All JMJ services are built around Deriv's instruments including Volatility 75, Boom 500, and Crash 1000.</p>
+        </div>
+      </div>
+      
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">05</span> -->
+          <h3>Is JMJ available in my country?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>JMJ services are available globally, except in countries where forex trading is restricted. Check our terms page for the full list of restricted jurisdictions or contact support.</p>
+        </div>
+      </div>
+      
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">06</span> -->
+          <h3>How is JMJ different from other signal providers?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>We offer multiple ways to participate—not just signals. Pool Funding, Account Management, and Mentorship provide flexibility. Our 92% accuracy is verified and our team consists of active traders, not just analysts.</p>
+        </div>
+      </div>
+      
+     
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">07</span> -->
+          <h3>What support do I get after joining?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>All members get access to our private community, 24/7 chat support, and regular market updates. Mentorship students receive 1-on-1 sessions, while Account Management clients get monthly performance reviews.</p>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- Contact Button -->
+<div class="faq-contact">
+  <a href="#contact" class="faq-contact-button">Still have questions? Contact us</a>
+</div>
+    
+  </div>
+</section>
 <script src="script.js"></script>
 </body>
 </html>
