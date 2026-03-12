@@ -13,8 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
   init3DGlobe();
   initTestimonialWall();
   initJmjAdvantage();
-  initResultsGallery();
+  initResultsHorizontal();
   initFaq();
+  // initNotebook();
+  initAboutSection();
+  initPillars();
+  initHowItWorks();
 });
 
 
@@ -475,7 +479,8 @@ function initParallax() {
 // Add this new function to your script.js
 // Call it from your DOMContentLoaded event
 
-// SYNTHETIC INDICES TICKER
+
+// ===== LIVE DERIV TICKER - REAL PRICES =====
 function initSyntheticTicker() {
   // Check if ticker already exists
   if (document.querySelector('.synthetic-ticker')) return;
@@ -484,123 +489,162 @@ function initSyntheticTicker() {
   const ticker = document.createElement('div');
   ticker.className = 'synthetic-ticker';
   
-  // Synthetic indices data
-  const indices = [
-    { symbol: 'V75', name: 'Volatility 75', basePrice: 2345.67, volatility: 0.8 },
-    { symbol: 'V50', name: 'Volatility 50', basePrice: 1876.54, volatility: 0.6 },
-    { symbol: 'B500', name: 'Boom 500', basePrice: 15678.89, volatility: 1.2 },
-    { symbol: 'C1000', name: 'Crash 1000', basePrice: 8923.45, volatility: 1.5 },
-    { symbol: 'ST200', name: 'Step 200', basePrice: 5678.90, volatility: 0.4 },
-    { symbol: 'R100', name: 'Range Break 100', basePrice: 4321.23, volatility: 0.9 },
-    { symbol: 'V25', name: 'Volatility 25', basePrice: 3456.78, volatility: 0.5 },
-    { symbol: 'B1000', name: 'Boom 1000', basePrice: 23456.78, volatility: 1.8 }
-  ];
+  // Add to page
+  document.body.appendChild(ticker);
   
-  // Store current prices
-  const prices = {};
-  indices.forEach(idx => {
-    prices[idx.symbol] = idx.basePrice;
-  });
-  
-  // Generate initial ticker items (double for seamless loop)
+  // Create ticker structure
   ticker.innerHTML = `
     <div class="ticker-wrapper">
       <div class="ticker-content" id="tickerContent">
-        ${generateTickerItems(indices, prices)}
-        ${generateTickerItems(indices, prices)} <!-- Duplicate for seamless loop -->
+        <div class="ticker-item">
+          <span class="ticker-symbol">V75</span>
+          <span class="ticker-price" id="price-V75">---</span>
+          <span class="ticker-change" id="change-V75">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V50</span>
+          <span class="ticker-price" id="price-V50">---</span>
+          <span class="ticker-change" id="change-V50">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">B500</span>
+          <span class="ticker-price" id="price-B500">---</span>
+          <span class="ticker-change" id="change-B500">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">C1000</span>
+          <span class="ticker-price" id="price-C1000">---</span>
+          <span class="ticker-change" id="change-C1000">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V100</span>
+          <span class="ticker-price" id="price-V100">---</span>
+          <span class="ticker-change" id="change-V100">---</span>
+        </div>
       </div>
     </div>
   `;
   
-  // Add to page
-  document.body.appendChild(ticker);
+  // Connect to Deriv WebSocket
+  connectDerivWebSocket();
+}
+
+// Store previous prices for change calculation
+const priceHistory = {};
+
+function connectDerivWebSocket() {
+  // Deriv WebSocket endpoint
+  const ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=1089'); // 1089 is test app_id
   
-  // Update prices every 2 seconds
-  setInterval(() => {
-    // Update random indices
-    indices.forEach(idx => {
-      // Random price movement
-      const change = (Math.random() * idx.volatility * 2) - idx.volatility;
-      prices[idx.symbol] = prices[idx.symbol] + change;
+  // Symbol mapping - Deriv uses different symbols
+  const symbolMap = {
+    'V75': 'R_75',
+    'V50': 'R_50',
+    'V100': 'R_100',
+    'B500': 'BOOM500',
+    'C1000': 'CRASH1000'
+  };
+  
+  // Map our display symbols to Deriv symbols
+  const ourSymbols = ['V75', 'V50', 'V100', 'B500', 'C1000'];
+  
+  ws.onopen = () => {
+    console.log('✅ Connected to Deriv WebSocket');
+    
+    // Subscribe to ticks for each symbol
+    ourSymbols.forEach(sym => {
+      const derivSym = symbolMap[sym];
+      if (!derivSym) return;
       
-      // Ensure price doesn't go negative
-      if (prices[idx.symbol] < 10) prices[idx.symbol] = idx.basePrice;
+      const subscribeMsg = {
+        ticks: derivSym,
+        subscribe: 1
+      };
+      
+      ws.send(JSON.stringify(subscribeMsg));
+      console.log(`Subscribed to ${derivSym} (${sym})`);
     });
-    
-    // Update DOM
-    updateTickerDisplay(indices, prices);
-    
-  }, 2000);
+  };
   
-  // Pause animation on hover
-  const tickerContent = document.getElementById('tickerContent');
-  if (tickerContent) {
-    tickerContent.addEventListener('mouseenter', () => {
-      tickerContent.style.animationPlayState = 'paused';
-    });
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
     
-    tickerContent.addEventListener('mouseleave', () => {
-      tickerContent.style.animationPlayState = 'running';
-    });
-  }
-}
-
-function generateTickerItems(indices, prices) {
-  return indices.map(idx => {
-    const price = prices[idx.symbol];
-    const prevPrice = price - (Math.random() * 2); // Simulated previous price
-    const change = price - prevPrice;
-    const percentChange = (change / prevPrice) * 100;
-    const isPositive = change >= 0;
-    
-    return `
-      <div class="ticker-item">
-        <span class="ticker-symbol">${idx.symbol}</span>
-        <span class="ticker-price">${price.toFixed(2)}</span>
-        <span class="ticker-change ${isPositive ? 'positive' : 'negative'}">
-          <span class="ticker-arrow">${isPositive ? '▲' : '▼'}</span>
-          <span class="ticker-percent">${Math.abs(percentChange).toFixed(1)}%</span>
-        </span>
-      </div>
-    `;
-  }).join('');
-}
-
-function updateTickerDisplay(indices, prices) {
-  const tickerContent = document.getElementById('tickerContent');
-  if (!tickerContent) return;
-  
-  // Update all items (both original and duplicate)
-  const items = tickerContent.children;
-  
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const idxIndex = i % indices.length; // Loop through indices
-    const idx = indices[idxIndex];
-    const price = prices[idx.symbol];
-    
-    // Calculate change (simulate with small random)
-    const prevPrice = price - (Math.random() * 1);
-    const change = price - prevPrice;
-    const percentChange = (change / prevPrice) * 100;
-    const isPositive = change >= 0;
-    
-    // Update price
-    const priceSpan = item.querySelector('.ticker-price');
-    if (priceSpan) priceSpan.textContent = price.toFixed(2);
-    
-    // Update change
-    const changeSpan = item.querySelector('.ticker-change');
-    if (changeSpan) {
-      changeSpan.className = `ticker-change ${isPositive ? 'positive' : 'negative'}`;
-      changeSpan.innerHTML = `
-        <span class="ticker-arrow">${isPositive ? '▲' : '▼'}</span>
-        <span class="ticker-percent">${Math.abs(percentChange).toFixed(1)}%</span>
-      `;
+    // Check if it's a tick update
+    if (data.tick) {
+      const tick = data.tick;
+      const derivSymbol = tick.symbol;
+      
+      // Map back to our display symbol
+      let ourSymbol = null;
+      for (let [our, deriv] of Object.entries(symbolMap)) {
+        if (deriv === derivSymbol) {
+          ourSymbol = our;
+          break;
+        }
+      }
+      
+      if (!ourSymbol) return;
+      
+      const price = tick.quote;
+      const priceElement = document.getElementById(`price-${ourSymbol}`);
+      const changeElement = document.getElementById(`change-${ourSymbol}`);
+      
+      if (priceElement) {
+        // Update price
+        priceElement.textContent = price.toFixed(2);
+        
+        // Calculate change from previous price
+        if (priceHistory[ourSymbol]) {
+          const previousPrice = priceHistory[ourSymbol];
+          const change = price - previousPrice;
+          const percentChange = (change / previousPrice) * 100;
+          const isPositive = change >= 0;
+          
+          if (changeElement) {
+            changeElement.className = `ticker-change ${isPositive ? 'positive' : 'negative'}`;
+            changeElement.innerHTML = `
+              <span class="ticker-arrow">${isPositive ? '▲' : '▼'}</span>
+              <span class="ticker-percent">${Math.abs(percentChange).toFixed(2)}%</span>
+            `;
+          }
+        }
+        
+        // Store current price for next change calculation
+        priceHistory[ourSymbol] = price;
+      }
     }
-  }
+    
+    // Handle errors
+    if (data.error) {
+      console.error('Deriv API error:', data.error.message);
+    }
+  };
+  
+  ws.onerror = (error) => {
+    console.error('WebSocket error:', error);
+  };
+  
+  ws.onclose = () => {
+    console.log('WebSocket disconnected, reconnecting in 5 seconds...');
+    setTimeout(connectDerivWebSocket, 5000);
+  };
+  
+  // Store connection for cleanup
+  window.derivWs = ws;
 }
 
+// Update your DOMContentLoaded to include cleanup
+document.addEventListener('DOMContentLoaded', function() {
+  // ... existing code ...
+  initSyntheticTicker();
+});
+
+// Clean up on page unload
+window.addEventListener('beforeunload', function() {
+  if (window.derivWs) {
+    window.derivWs.close();
+  }
+});
 
 // ===== HORIZONTAL CIRCLES ANIMATION =====
 function initHowItWorksCircles() {
@@ -899,455 +943,98 @@ function initTestimonialWall() {
   });
 }
 
-// ===== THE JMJ ADVANTAGE - 3D ANIMATIONS (FIXED) =====
-function initJmjAdvantage() {
-  // Initialize all four animations
-  initAccountAnimation(); // NEW & IMPROVED
-  initPoolAnimation();    // (same - you liked)
-  initSignalsAnimation(); // (same - you liked)
-  initMentorAnimation();  // (same - you liked)
-  
-  // Scroll reveal for rows
-  const rows = document.querySelectorAll('.service-row');
-  
-  function checkVisibility() {
-    rows.forEach((row, index) => {
-      const rect = row.getBoundingClientRect();
-      const isVisible = rect.top < window.innerHeight - 100;
-      
-      if (isVisible && !row.classList.contains('visible')) {
-        // Add delay based on index for staggered effect
-        setTimeout(() => {
-          row.classList.add('visible');
-        }, index * 200);
-      }
-      
-      // Remove visibility when scrolled away (optional)
-      if (!isVisible && row.classList.contains('visible')) {
-        row.classList.remove('visible');
-      }
-    });
-  }
-  
-  window.addEventListener('scroll', checkVisibility);
-  setTimeout(checkVisibility, 100);
-}
 
-// NEW ANIMATION 1: Account Management - Rotating Golden Gears
-function initAccountAnimation() {
-  const canvas = document.getElementById('animationAccount');
-  if (!canvas) return;
+// ===== RESULTS GALLERY - HORIZONTAL SCROLL =====
+function initResultsHorizontal() {
+  const track = document.getElementById('resultsTrack');
+  const prevBtn = document.getElementById('resultsPrev');
+  const nextBtn = document.getElementById('resultsNext');
+  const dotsContainer = document.getElementById('resultsDots');
   
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let rotation = 0;
+  if (!track) return;
   
-  function resize() {
-    width = canvas.clientWidth;
-    height = canvas.clientHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  
-  function drawGear(centerX, centerY, radius, teeth, angle, isMain = false) {
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate(angle);
-    
-    // Draw gear teeth
-    ctx.beginPath();
-    for (let i = 0; i < teeth; i++) {
-      const toothAngle = (i / teeth) * Math.PI * 2;
-      const x1 = Math.cos(toothAngle) * radius;
-      const y1 = Math.sin(toothAngle) * radius;
-      const x2 = Math.cos(toothAngle) * (radius + (isMain ? 15 : 10));
-      const y2 = Math.sin(toothAngle) * (radius + (isMain ? 15 : 10));
-      
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-    }
-    
-    ctx.strokeStyle = '#d4af37';
-    ctx.lineWidth = isMain ? 3 : 2;
-    ctx.shadowBlur = isMain ? 25 : 15;
-    ctx.shadowColor = '#d4af37';
-    ctx.stroke();
-    
-    // Draw main gear circle
-    ctx.beginPath();
-    ctx.arc(0, 0, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = '#d4af37';
-    ctx.lineWidth = isMain ? 4 : 2;
-    ctx.stroke();
-    
-    // Draw inner hub
-    ctx.beginPath();
-    ctx.arc(0, 0, radius * 0.3, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(212, 175, 55, 0.3)';
-    ctx.shadowBlur = isMain ? 30 : 20;
-    ctx.fill();
-    
-    // Draw center dot
-    ctx.beginPath();
-    ctx.arc(0, 0, 5, 0, Math.PI * 2);
-    ctx.fillStyle = '#d4af37';
-    ctx.fill();
-    
-    ctx.restore();
-  }
-  
-  function drawConnection(x1, y1, x2, y2) {
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
-    ctx.lineWidth = 1;
-    ctx.shadowBlur = 10;
-    ctx.stroke();
-  }
-  
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    
-    const centerX = width / 2;
-    const centerY = height / 2;
-    
-    // Main large gear (center)
-    drawGear(centerX, centerY, 50, 12, rotation, true);
-    
-    // Smaller gears around
-    const gearPositions = [
-      { x: centerX - 100, y: centerY - 60, teeth: 8, speed: -0.8 },
-      { x: centerX + 100, y: centerY + 50, teeth: 8, speed: 0.6 },
-      { x: centerX - 80, y: centerY + 80, teeth: 6, speed: 0.9 },
-      { x: centerX + 90, y: centerY - 70, teeth: 6, speed: -0.7 }
-    ];
-    
-    // Draw connections
-    gearPositions.forEach(pos => {
-      drawConnection(centerX, centerY, pos.x, pos.y);
-    });
-    
-    // Draw smaller gears
-    gearPositions.forEach((pos, index) => {
-      drawGear(pos.x, pos.y, 30, pos.teeth, rotation * pos.speed);
-    });
-    
-    // Draw glowing particles (representing energy/management)
-    for (let i = 0; i < 5; i++) {
-      const angle = Date.now() * 0.001 + i;
-      const distance = 70 + Math.sin(angle * 2) * 10;
-      const x = centerX + Math.cos(angle) * distance;
-      const y = centerY + Math.sin(angle) * distance;
-      
-      ctx.beginPath();
-      ctx.arc(x, y, 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#d4af37';
-      ctx.shadowBlur = 20;
-      ctx.fill();
-      
-      ctx.beginPath();
-      ctx.arc(x, y, 8, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(212, 175, 55, 0.2)';
-      ctx.fill();
-    }
-    
-    rotation += 0.02;
-    requestAnimationFrame(draw);
-  }
-  
-  resize();
-  window.addEventListener('resize', resize);
-  draw();
-}
-
-// ANIMATION 2: Pool Funding - Flowing Liquid/Gold Coins (unchanged - you liked)
-function initPoolAnimation() {
-  const canvas = document.getElementById('animationPool');
-  if (!canvas) return;
-  
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let particles = [];
-  
-  function resize() {
-    width = canvas.clientWidth;
-    height = canvas.clientHeight;
-    canvas.width = width;
-    canvas.height = height;
-    
-    // Create particles
-    particles = [];
-    for (let i = 0; i < 15; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 15 + 5,
-        speed: Math.random() * 2 + 1,
-        angle: Math.random() * Math.PI * 2
-      });
-    }
-  }
-  
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    
-    // Draw pool/base
-    ctx.beginPath();
-    ctx.arc(width/2, height/2, 80, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(212, 175, 55, 0.1)';
-    ctx.shadowBlur = 40;
-    ctx.shadowColor = '#d4af37';
-    ctx.fill();
-    
-    // Draw flowing particles (coins)
-    particles.forEach(p => {
-      // Move particles in circular flow
-      p.x += Math.cos(p.angle) * p.speed;
-      p.y += Math.sin(p.angle) * p.speed;
-      
-      // Wrap around
-      if (p.x < 0) p.x = width;
-      if (p.x > width) p.x = 0;
-      if (p.y < 0) p.y = height;
-      if (p.y > height) p.y = 0;
-      
-      // Draw coin
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size/2, 0, Math.PI * 2);
-      
-      // Gradient for gold effect
-      const gradient = ctx.createRadialGradient(p.x-2, p.y-2, 0, p.x, p.y, p.size);
-      gradient.addColorStop(0, '#ffd700');
-      gradient.addColorStop(0.7, '#b8860b');
-      
-      ctx.fillStyle = gradient;
-      ctx.shadowBlur = 20;
-      ctx.fill();
-      
-      // Draw "$" symbol
-      ctx.fillStyle = '#000';
-      ctx.font = `${p.size/2}px Arial`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.shadowBlur = 0;
-      ctx.fillText('$', p.x, p.y);
-    });
-    
-    requestAnimationFrame(draw);
-  }
-  
-  resize();
-  window.addEventListener('resize', resize);
-  draw();
-}
-
-// ANIMATION 3: Live Signals - Pulsing Radar/Scanner (unchanged - you liked)
-function initSignalsAnimation() {
-  const canvas = document.getElementById('animationSignals');
-  if (!canvas) return;
-  
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let angle = 0;
-  
-  function resize() {
-    width = canvas.clientWidth;
-    height = canvas.clientHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    
-    // Draw radar circles
-    for (let i = 1; i <= 4; i++) {
-      ctx.beginPath();
-      ctx.arc(width/2, height/2, 40 * i, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(212, 175, 55, 0.2)';
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-    
-    // Draw scanning line
-    ctx.beginPath();
-    ctx.moveTo(width/2, height/2);
-    const scanX = width/2 + Math.cos(angle) * 160;
-    const scanY = height/2 + Math.sin(angle) * 160;
-    ctx.lineTo(scanX, scanY);
-    ctx.strokeStyle = '#d4af37';
-    ctx.lineWidth = 2;
-    ctx.shadowBlur = 20;
-    ctx.stroke();
-    
-    // Draw random signal dots
-    for (let i = 0; i < 8; i++) {
-      const dotAngle = (i / 8) * Math.PI * 2;
-      const distance = 60 + Math.sin(Date.now() * 0.002 + i) * 20;
-      const dotX = width/2 + Math.cos(dotAngle) * distance;
-      const dotY = height/2 + Math.sin(dotAngle) * distance;
-      
-      ctx.beginPath();
-      ctx.arc(dotX, dotY, 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#d4af37';
-      ctx.shadowBlur = 15;
-      ctx.fill();
-      
-      // Pulse effect
-      ctx.beginPath();
-      ctx.arc(dotX, dotY, 8, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(212, 175, 55, 0.2)';
-      ctx.fill();
-    }
-    
-    angle += 0.02;
-    requestAnimationFrame(draw);
-  }
-  
-  resize();
-  window.addEventListener('resize', resize);
-  draw();
-}
-
-// ANIMATION 4: Mentorship - Rising Staircase/Golden Path (unchanged - you liked)
-function initMentorAnimation() {
-  const canvas = document.getElementById('animationMentor');
-  if (!canvas) return;
-  
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let step = 0;
-  
-  function resize() {
-    width = canvas.clientWidth;
-    height = canvas.clientHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    
-    // Draw glowing path
-    const pathWidth = 60;
-    const startX = width/4;
-    const startY = height - 50;
-    
-    for (let i = 0; i < 5; i++) {
-      const x = startX + i * 60;
-      const y = startY - i * 40 - Math.sin(step + i) * 10;
-      
-      // Draw step
-      ctx.shadowBlur = 30;
-      ctx.shadowColor = '#d4af37';
-      
-      // Step platform
-      ctx.fillStyle = 'rgba(212, 175, 55, 0.3)';
-      ctx.fillRect(x - 30, y - 10, 60, 20);
-      
-      // Step glow
-      ctx.fillStyle = 'rgba(212, 175, 55, 0.2)';
-      ctx.fillRect(x - 35, y - 15, 70, 30);
-      
-      // Draw "figure" on path
-      if (i === 4) {
-        ctx.beginPath();
-        ctx.arc(x, y - 25, 10, 0, Math.PI * 2);
-        ctx.fillStyle = '#d4af37';
-        ctx.shadowBlur = 20;
-        ctx.fill();
-        
-        // Glow around figure
-        ctx.beginPath();
-        ctx.arc(x, y - 25, 20, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(212, 175, 55, 0.2)';
-        ctx.fill();
-      }
-    }
-    
-    // Connecting line (path)
-    ctx.beginPath();
-    ctx.moveTo(startX - 20, startY + 10);
-    for (let i = 0; i < 5; i++) {
-      const x = startX + i * 60;
-      const y = startY - i * 40 - Math.sin(step + i) * 10 - 10;
-      ctx.lineTo(x, y);
-    }
-    ctx.strokeStyle = '#d4af37';
-    ctx.lineWidth = 3;
-    ctx.shadowBlur = 15;
-    ctx.stroke();
-    
-    step += 0.05;
-    requestAnimationFrame(draw);
-  }
-  
-  resize();
-  window.addEventListener('resize', resize);
-  draw();
-}
-
-// ===== RESULTS GALLERY - CAROUSEL & LIGHTBOX =====
-function initResultsGallery() {
-  const track = document.getElementById('carouselTrack');
-  const pages = document.querySelectorAll('.carousel-page');
-  const prevBtn = document.getElementById('prevArrow');
-  const nextBtn = document.getElementById('nextArrow');
-  const dots = document.querySelectorAll('.dot');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const closeBtn = document.querySelector('.lightbox-close');
-  const lightboxPrev = document.querySelector('.lightbox-prev');
-  const lightboxNext = document.querySelector('.lightbox-next');
-  const screenshotItems = document.querySelectorAll('.screenshot-item');
-  
-  let currentPage = 0;
-  let currentImageIndex = 0;
+  const cards = document.querySelectorAll('.result-card');
+  const cardWidth = cards[0]?.offsetWidth + 25; // width + gap
+  let currentIndex = 0;
+  let autoScrollInterval;
   let startX, isDragging = false;
   
-  // Update carousel position
-  function updateCarousel() {
-    track.style.transform = `translateX(-${currentPage * 100}%)`;
+  // Calculate max index
+  const visibleCount = window.innerWidth > 900 ? 3 : (window.innerWidth > 600 ? 2 : 1);
+  const maxIndex = Math.max(0, cards.length - visibleCount);
+  
+  // Create dots
+  function createDots() {
+    dotsContainer.innerHTML = '';
+    const dotCount = Math.ceil(cards.length / visibleCount);
     
-    // Update dots
+    for (let i = 0; i < dotCount; i++) {
+      const dot = document.createElement('span');
+      dot.classList.add('result-dot');
+      dot.dataset.index = i * visibleCount;
+      
+      dot.addEventListener('click', () => {
+        goToSlide(i * visibleCount);
+      });
+      
+      dotsContainer.appendChild(dot);
+    }
+    
+    updateDots();
+  }
+  
+  // Update active dot
+  function updateDots() {
+    const dots = document.querySelectorAll('.result-dot');
+    const activeDotIndex = Math.floor(currentIndex / visibleCount);
+    
     dots.forEach((dot, index) => {
-      dot.classList.toggle('active', index === currentPage);
+      dot.classList.toggle('active', index === activeDotIndex);
     });
   }
   
-  // Next page
-  function nextPage() {
-    if (currentPage < pages.length - 1) {
-      currentPage++;
-      updateCarousel();
+  // Go to slide
+  function goToSlide(index) {
+    currentIndex = Math.max(0, Math.min(index, maxIndex));
+    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    updateDots();
+  }
+  
+  // Next slide
+  function nextSlide() {
+    if (currentIndex < maxIndex) {
+      goToSlide(currentIndex + 1);
+    } else {
+      goToSlide(0); // Loop back to start
     }
   }
   
-  // Previous page
-  function prevPage() {
-    if (currentPage > 0) {
-      currentPage--;
-      updateCarousel();
+  // Prev slide
+  function prevSlide() {
+    if (currentIndex > 0) {
+      goToSlide(currentIndex - 1);
+    } else {
+      goToSlide(maxIndex); // Loop to end
     }
   }
   
-  // Event listeners for arrows
-  if (prevBtn) prevBtn.addEventListener('click', prevPage);
-  if (nextBtn) nextBtn.addEventListener('click', nextPage);
+  // Auto scroll (slow)
+  function startAutoScroll() {
+    stopAutoScroll();
+    autoScrollInterval = setInterval(nextSlide, 4000); // 4 seconds
+  }
   
-  // Event listeners for dots
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-      currentPage = index;
-      updateCarousel();
-    });
-  });
+  function stopAutoScroll() {
+    if (autoScrollInterval) {
+      clearInterval(autoScrollInterval);
+    }
+  }
   
-  // Touch/Swipe support
+  // Touch events for swipe
   track.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     isDragging = true;
+    stopAutoScroll();
   });
   
   track.addEventListener('touchmove', (e) => {
@@ -1357,103 +1044,126 @@ function initResultsGallery() {
   
   track.addEventListener('touchend', (e) => {
     if (!isDragging) return;
+    
     const endX = e.changedTouches[0].clientX;
     const diff = startX - endX;
     
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
-        nextPage(); // Swipe left
+        nextSlide(); // Swipe left
       } else {
-        prevPage(); // Swipe right
+        prevSlide(); // Swipe right
       }
     }
     
     isDragging = false;
+    startAutoScroll();
   });
   
-  // Lightbox functionality
-  screenshotItems.forEach((item, index) => {
-    item.addEventListener('click', () => {
-      const img = item.querySelector('.screenshot-img');
-      currentImageIndex = index;
-      lightboxImg.src = img.src;
-      lightbox.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    });
+  // Mouse drag prevention
+  track.addEventListener('mousedown', (e) => {
+    e.preventDefault();
   });
   
-  // Close lightbox
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      lightbox.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-  }
-  
-  // Close on background click
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-      lightbox.classList.remove('active');
-      document.body.style.overflow = '';
-    }
+  // Arrow buttons
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    prevSlide();
+    stopAutoScroll();
+    setTimeout(startAutoScroll, 5000);
   });
   
-  // Navigate lightbox
-  if (lightboxPrev) {
-    lightboxPrev.addEventListener('click', () => {
-      currentImageIndex = (currentImageIndex - 1 + screenshotItems.length) % screenshotItems.length;
-      const newImg = screenshotItems[currentImageIndex].querySelector('.screenshot-img');
-      lightboxImg.src = newImg.src;
-    });
-  }
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    nextSlide();
+    stopAutoScroll();
+    setTimeout(startAutoScroll, 5000);
+  });
   
-  if (lightboxNext) {
-    lightboxNext.addEventListener('click', () => {
-      currentImageIndex = (currentImageIndex + 1) % screenshotItems.length;
-      const newImg = screenshotItems[currentImageIndex].querySelector('.screenshot-img');
-      lightboxImg.src = newImg.src;
-    });
-  }
+  // Pause auto-scroll on hover
+  track.addEventListener('mouseenter', stopAutoScroll);
+  track.addEventListener('mouseleave', startAutoScroll);
   
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('active')) return;
+  // Initialize
+  createDots();
+  startAutoScroll();
+  
+  // Handle resize
+  window.addEventListener('resize', () => {
+    // Recalculate card width and max index
+    const newCardWidth = cards[0]?.offsetWidth + 25;
+    const newVisibleCount = window.innerWidth > 900 ? 3 : (window.innerWidth > 600 ? 2 : 1);
+    const newMaxIndex = Math.max(0, cards.length - newVisibleCount);
     
-    if (e.key === 'Escape') {
-      lightbox.classList.remove('active');
-      document.body.style.overflow = '';
-    } else if (e.key === 'ArrowLeft') {
-      lightboxPrev.click();
-    } else if (e.key === 'ArrowRight') {
-      lightboxNext.click();
+    // Adjust current index if needed
+    if (currentIndex > newMaxIndex) {
+      currentIndex = newMaxIndex;
     }
+    
+    goToSlide(currentIndex);
+    createDots(); // Recreate dots for new visible count
   });
-  
-  // Initialize first page
-  updateCarousel();
 }
 
-// ===== FAQ ACCORDION =====
-function initFaq() {
-  const faqItems = document.querySelectorAll('.faq-item');
+// ===== ABOUT SECTION - SCROLL TRIGGERED =====
+function initAboutSection() {
+  const imageWrapper = document.getElementById('aboutImage');
+  const textBox = document.getElementById('aboutText');
   
-  faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
+  if (!imageWrapper || !textBox) return;
+  
+  // Check if section is already visible
+  function checkVisibility() {
+    const rect = document.getElementById('about').getBoundingClientRect();
+    const windowHeight = window.innerHeight;
     
-    question.addEventListener('click', () => {
-      // Close other items (optional - remove if you want multiple open)
-      faqItems.forEach(otherItem => {
-        if (otherItem !== item && otherItem.classList.contains('active')) {
-          otherItem.classList.remove('active');
-        }
-      });
+    // If section is in viewport
+    if (rect.top < windowHeight - 100 && rect.bottom > 100) {
+      imageWrapper.classList.add('visible');
+      textBox.classList.add('visible');
+      window.removeEventListener('scroll', checkVisibility);
+    }
+  }
+  
+  // Check on scroll
+  window.addEventListener('scroll', checkVisibility);
+  
+  // Check immediately
+  setTimeout(checkVisibility, 300);
+}
+
+// ===== PILLARS SECTION - SCROLL TRIGGERED =====
+function initPillars() {
+  const pillars = document.querySelectorAll('.pillar-card');
+  if (!pillars.length) return;
+  
+  function checkVisibility() {
+    let anyVisible = false;
+    
+    pillars.forEach((pillar, index) => {
+      const rect = pillar.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
       
-      // Toggle current item
-      item.classList.toggle('active');
+      if (rect.top < windowHeight - 100 && rect.bottom > 100) {
+        // Stagger the animation
+        setTimeout(() => {
+          pillar.classList.add('visible');
+        }, index * 150);
+        anyVisible = true;
+      }
     });
-  });
+    
+    // Remove listener once all are visible
+    if (anyVisible && document.querySelectorAll('.pillar-card.visible').length === pillars.length) {
+      window.removeEventListener('scroll', checkVisibility);
+    }
+  }
+  
+  window.addEventListener('scroll', checkVisibility);
+  setTimeout(checkVisibility, 300);
 }
 
-
-
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  initAboutSection();
+  initPillars();
+});
 
