@@ -1537,6 +1537,8 @@ body {
   font-weight: 600;
 }
 
+
+
 /* Navigation Arrows */
 .results-arrow {
   position: absolute;
@@ -2435,12 +2437,13 @@ body {
   }
 }
 
-/* ===== FOOTER SECTION ===== */
+/* ===== FOOTER SECTION - ORIGINAL LAYOUT UPDATED ===== */
 .footer-section {
   background: #0a0a0a;
-  padding: 60px 20px 30px;
+  padding: 50px 20px 30px;
   border-top: 1px solid rgba(212, 175, 55, 0.2);
   position: relative;
+  margin-bottom: 40px; /* Space for ticker */
 }
 
 .footer-container {
@@ -2448,16 +2451,16 @@ body {
   margin: 0 auto;
 }
 
-/* Main Footer - 4 Columns */
-.footer-main {
+/* Main Footer Grid - 4 Columns */
+.footer-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
   gap: 40px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 /* Logo Column */
-.footer-logo-col {
+.logo-col {
   display: flex;
   align-items: flex-start;
 }
@@ -2465,12 +2468,7 @@ body {
 .footer-logo {
   max-width: 120px;
   height: auto;
-  filter: brightness(0) invert(1);
-  transition: all 0.3s ease;
-}
 
-.footer-logo:hover {
-  filter: brightness(0) invert(0.8) sepia(1) hue-rotate(50deg) saturate(5);
 }
 
 /* Footer Columns */
@@ -2495,7 +2493,7 @@ body {
 }
 
 .footer-links li {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .footer-links a {
@@ -2503,11 +2501,12 @@ body {
   text-decoration: none;
   font-size: 14px;
   transition: all 0.3s ease;
+  display: inline-block;
 }
 
 .footer-links a:hover {
   color: #d4af37;
-  padding-left: 5px;
+  transform: translateX(5px);
 }
 
 /* Social Icons */
@@ -2539,30 +2538,47 @@ body {
   box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
 }
 
-/* Telegram specific */
-.social-icon.telegram:hover { background: #0088cc; color: white; border-color: #0088cc; }
-.social-icon.instagram:hover { background: #e4405f; color: white; border-color: #e4405f; }
-.social-icon.snapchat:hover { background: #fffc00; color: #000; border-color: #fffc00; }
-.social-icon.youtube:hover { background: #ff0000; color: white; border-color: #ff0000; }
-
-/* Risk Disclosure */
-.risk-disclosure {
-  background: rgba(212, 175, 55, 0.05);
-  border-left: 3px solid #d4af37;
-  padding: 20px;
-  margin-bottom: 30px;
-  border-radius: 0 8px 8px 0;
+/* Compliance Card - Compact White Background */
+.compliance-card {
+  background: white;
+  border-radius: 30px;
+  padding: 10px 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px auto;
+  width: auto;
+  max-width: fit-content;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+   display: flex;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.risk-disclosure p {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
-  line-height: 1.6;
-  margin: 0;
+.compliance-logo {
+  height: 30px;
+  width: auto;
+  object-fit: contain;
 }
 
-.risk-disclosure strong {
+.compliance-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.compliance-title {
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.compliance-badge {
   color: #d4af37;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 /* Footer Bottom */
@@ -2584,6 +2600,7 @@ body {
   display: flex;
   gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .legal-links a {
@@ -2600,29 +2617,61 @@ body {
   color: rgba(212, 175, 55, 0.3);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
-  .download-container {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .download-text {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .download-features {
-    justify-content: center;
-  }
-  
-  .footer-main {
+  .footer-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
   }
   
-  .footer-logo-col {
+  .logo-col {
     grid-column: span 2;
+    justify-content: center;
+  }
+  
+  .footer-logo {
+    max-width: 100px;
+  }
+  
+  .compliance-card {
+    padding: 8px 20px;
+  }
+  
+  .compliance-logo {
+    height: 25px;
+  }
+  
+  .compliance-title {
+    font-size: 13px;
+  }
+  
+  .compliance-badge {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+  
+  .logo-col {
+    grid-column: span 1;
+  }
+  
+  .footer-col {
+    align-items: center;
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .social-icons {
     justify-content: center;
   }
   
@@ -2635,32 +2684,34 @@ body {
   .legal-links {
     justify-content: center;
   }
+  
+  .compliance-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+  }
+  
+  .compliance-text {
+    align-items: center;
+  }
 }
 
-@media (max-width: 600px) {
-  .download-title {
-    font-size: 32px;
+@media (max-width: 400px) {
+  .compliance-card {
+    padding: 10px;
   }
   
-  .download-features {
-    grid-template-columns: 1fr;
+  .compliance-logo {
+    height: 20px;
   }
   
-  .footer-main {
-    grid-template-columns: 1fr;
-    gap: 30px;
+  .compliance-title {
+    font-size: 12px;
   }
   
-  .footer-logo-col {
-    grid-column: span 1;
-  }
-  
-  .social-icons {
-    justify-content: center;
-  }
-  
-  .footer-col {
-    text-align: center;
+  .compliance-badge {
+    font-size: 10px;
   }
 }
 
@@ -3041,3 +3092,174 @@ body {
   }
 }
  
+/* ===== GOLD STATS SECTION WITH FLOATING PARTICLES ===== */
+.stats-section {
+  padding: 50px 20px;
+  background: #c29b1c; /* Rich gold background */
+  position: relative;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  overflow: hidden; /* Keeps particles contained */
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Floating Particles Container */
+.stats-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none; /* So clicks pass through to buttons */
+}
+
+/* Individual Particles */
+.stats-particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6); /* Light gold/white particles */
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Particle Animations */
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100px) translateX(20px) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+.stats-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 2; /* Above particles */
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  text-align: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+}
+
+ .stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -15px;
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background: rgb(0, 0, 0);
+  z-index: 5;
+}
+
+
+.stat-number {
+  font-size: 60px;
+  font-weight: 900;
+  color: #1a1a1a; /* Dark text */
+  line-height: 1.2;
+  margin-bottom: 8px;
+  font-family: 'Segoe UI', monospace;
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 2px 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Dark + symbols */
+#stat1::after {
+  content: '+';
+  font-size: 36px;
+  color: #1a1a1a;
+  margin-left: 2px;
+}
+
+#stat2::after {
+  content: 'K+';
+  font-size: 32px;
+  color: #1a1a1a;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+#stat3::after {
+  content: 'K+';
+  font-size: 32px;
+  color: #1a1a1a;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+.stat-label {
+  color: #333333; /* Dark gray */
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-section {
+    padding: 40px 15px;
+    min-height: 200px;
+  }
+  
+  .stat-number {
+    font-size: 42px;
+  }
+  
+  #stat1::after {
+    font-size: 28px;
+  }
+  
+  #stat2::after,
+  #stat3::after {
+    font-size: 24px;
+  }
+  
+  .stat-label {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    gap: 15px;
+  }
+  
+  .stat-number {
+    font-size: 32px;
+  }
+  
+  .stat-label {
+    font-size: 12px;
+  }
+}
