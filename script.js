@@ -9,18 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
   initSyntheticTicker();
   initHeader();
   initHowItWorksCircles();
-  // initPerformanceCounters();
   init3DGlobe();
   initTestimonialWall();
   initJmjAdvantage();
-  initResultsHorizontal();
+  initResultsGallery(); // Renamed to avoid conflicts
   initFaq();
-  // initNotebook();
   initAboutSection();
   initPillars();
-  initHowItWorks();
+  initStatsSection();
+  // initHowItWorks(); // Commented out if not ready
 });
-
 
 // HEADER & NAVIGATION FUNCTIONALITY
 function initHeader() {
@@ -140,44 +138,36 @@ function createParticle(container) {
   container.appendChild(particle);
 }
 
-// PROFESSIONAL CANDLESTICK CHART - SLOWER, FULL WIDTH, SHARPER LINES
+// PROFESSIONAL CANDLESTICK CHART
 function initCandlestickChart() {
   const canvas = document.getElementById('chartCanvas');
   if (!canvas) return;
   
   const ctx = canvas.getContext('2d');
   
-  // Chart configuration - ADJUSTED FOR SHARPER LINES
   const config = {
-    candleWidth: 10,        // Slightly wider for better visibility
-    candleSpacing: 6,       // More spacing between candles
-    wickWidth: 1,           // Thinner wicks for sharper look
+    candleWidth: 10,
+    candleSpacing: 6,
+    wickWidth: 1,
     bullishColor: '#d4af37',
     bearishColor: '#4a4a4a',
-    glowIntensity: 8,       // REDUCED glow for less blur
-    volumeBars: false,      // Disabled for cleaner look
-    gridOpacity: 0.1        // More subtle grid
+    glowIntensity: 8,
+    gridOpacity: 0.1
   };
   
-  // Data store
   let candles = [];
   let lastPrice = 1.2000;
   let animationFrame;
   let lastTimestamp = 0;
-  
-  // SLOWER animation - update every 4 frames instead of every frame
   let frameCounter = 0;
-  const updateFrequency = 4; // Higher number = slower animation
+  const updateFrequency = 4;
   
-  // Initialize with MORE historical data for full-width display
   function initializeCandles() {
     candles = [];
     let price = lastPrice;
-    
-    // Calculate how many candles we need to fill the screen width
     const totalCandleWidth = config.candleWidth + config.candleSpacing;
     const screenWidth = window.innerWidth;
-    const candlesNeeded = Math.ceil(screenWidth / totalCandleWidth) + 20; // Add extra for buffer
+    const candlesNeeded = Math.ceil(screenWidth / totalCandleWidth) + 20;
     
     for (let i = 0; i < candlesNeeded; i++) {
       const candle = generateCandle(price);
@@ -188,7 +178,6 @@ function initCandlestickChart() {
     lastPrice = price;
   }
   
-  // Generate realistic OHLC candle
   function generateCandle(prevClose) {
     const isBullish = Math.random() < 0.6;
     const bodySize = (Math.random() * 0.015 + 0.005) * prevClose;
@@ -212,24 +201,15 @@ function initCandlestickChart() {
     high = Math.max(high, open, close);
     low = Math.min(low, open, close);
     
-    high += (Math.random() * 0.002) * prevClose;
-    low -= (Math.random() * 0.002) * prevClose;
-    
-    const volume = isBullish ? 
-      Math.random() * 100 + 150 : 
-      Math.random() * 80 + 80;
-    
     return {
       open,
       close,
       high,
       low,
-      volume,
       isBullish
     };
   }
   
-  // Add new candle SLOWLY and remove oldest
   function addNewCandle() {
     const newCandle = generateCandle(lastPrice);
     candles.push(newCandle);
@@ -237,48 +217,39 @@ function initCandlestickChart() {
     lastPrice = newCandle.close;
   }
   
-  // Resize canvas and reinitialize candles for full width
   function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    
-    // Reinitialize candles to fill new width
     initializeCandles();
   }
   
-  // Draw grid - SHARPER LINES
   function drawGrid() {
     const width = canvas.width;
     const height = canvas.height;
     
     ctx.save();
-    ctx.beginPath();
     ctx.strokeStyle = '#d4af37';
     ctx.globalAlpha = config.gridOpacity;
     ctx.lineWidth = 0.5;
-    ctx.shadowBlur = 0; // NO SHADOW on grid for sharpness
     
-    // Horizontal grid lines (fewer for cleaner look)
-    const priceLevels = 6;
-    for (let i = 0; i <= priceLevels; i++) {
-      const y = (height * 0.15) + (i * (height * 0.7) / priceLevels);
+    for (let i = 0; i <= 6; i++) {
+      const y = (height * 0.15) + (i * (height * 0.7) / 6);
+      ctx.beginPath();
       ctx.moveTo(0, y);
       ctx.lineTo(width, y);
+      ctx.stroke();
     }
     
-    // Vertical grid lines (fewer for cleaner look)
-    const timeLevels = 8;
-    for (let i = 0; i <= timeLevels; i++) {
-      const x = i * (width / timeLevels);
+    for (let i = 0; i <= 8; i++) {
+      const x = i * (width / 8);
+      ctx.beginPath();
       ctx.moveTo(x, height * 0.15);
       ctx.lineTo(x, height * 0.85);
+      ctx.stroke();
     }
-    
-    ctx.stroke();
     ctx.restore();
   }
   
-  // Draw candlestick - SHARPER LINES
   function drawCandle(candle, x, yScale) {
     const { open, close, high, low, isBullish } = candle;
     
@@ -292,14 +263,9 @@ function initCandlestickChart() {
     const candleBodyHeight = candleBottom - candleTop;
     
     ctx.save();
-    
-    // MINIMAL glow for sharper appearance
     ctx.shadowColor = isBullish ? '#d4af37' : '#666666';
     ctx.shadowBlur = config.glowIntensity;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
     
-    // Draw wick - SHARP line
     ctx.beginPath();
     ctx.strokeStyle = isBullish ? '#d4af37' : '#888888';
     ctx.lineWidth = config.wickWidth;
@@ -307,35 +273,12 @@ function initCandlestickChart() {
     ctx.lineTo(x + config.candleWidth / 2, lowY);
     ctx.stroke();
     
-    // Draw body - SHARP edges
     ctx.fillStyle = isBullish ? config.bullishColor : config.bearishColor;
-    ctx.fillRect(
-      x, 
-      candleTop, 
-      config.candleWidth, 
-      Math.max(1, candleBodyHeight)
-    );
+    ctx.fillRect(x, candleTop, config.candleWidth, Math.max(1, candleBodyHeight));
     
     ctx.restore();
   }
   
-  // Draw price label - SHARP text
-  function drawPriceLabel() {
-    const lastCandle = candles[candles.length - 1];
-    if (!lastCandle) return;
-    
-    ctx.save();
-    ctx.font = '12px "Segoe UI", monospace';
-    ctx.fillStyle = '#d4af37';
-    ctx.shadowBlur = 0; // NO shadow on text for sharpness
-    ctx.globalAlpha = 0.9;
-    
-    const priceText = lastCandle.close.toFixed(5);
-    ctx.fillText(priceText, canvas.width - 100, 40);
-    ctx.restore();
-  }
-  
-  // Main animation loop - SLOWER movement
   function animate(timestamp) {
     if (!lastTimestamp) {
       lastTimestamp = timestamp;
@@ -343,58 +286,39 @@ function initCandlestickChart() {
       return;
     }
     
-    const elapsed = timestamp - lastTimestamp;
-    
-    // Target 60fps but update candles SLOWER
-    if (elapsed > 16) { // ~60fps timing
-      
-      // SLOWER candle updates - only add new candle every few frames
+    if (timestamp - lastTimestamp > 16) {
       frameCounter++;
       if (frameCounter >= updateFrequency) {
         addNewCandle();
         frameCounter = 0;
       }
       
-      // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Set up chart area - EXPANDED to full width
       const height = canvas.height;
       const width = canvas.width;
-      const chartTop = height * 0.15;      // Slightly more top margin
-      const chartBottom = height * 0.85;    // Slightly more bottom margin
+      const chartTop = height * 0.15;
+      const chartBottom = height * 0.85;
       const chartHeight = chartBottom - chartTop;
       
-      // Find price range
       const prices = candles.flatMap(c => [c.high, c.low]);
       const minPrice = Math.min(...prices) * 0.999;
       const maxPrice = Math.max(...prices) * 1.001;
       
-      // Price to Y coordinate
-      const yScale = (price) => {
-        return chartTop + ((maxPrice - price) / (maxPrice - minPrice)) * chartHeight;
-      };
+      const yScale = (price) => chartTop + ((maxPrice - price) / (maxPrice - minPrice)) * chartHeight;
       
-      // Draw grid first (background)
       drawGrid();
       
-      // Calculate starting X - FILL FULL WIDTH from right edge
       const totalCandleWidth = config.candleWidth + config.candleSpacing;
-      const startX = width - totalCandleWidth; // Start from right edge
+      const startX = width - totalCandleWidth;
       
-      // Draw candles from right to left, covering FULL WIDTH
       for (let i = 0; i < candles.length; i++) {
         const candle = candles[i];
         const x = startX - (i * totalCandleWidth);
-        
-        // Draw all candles that might be visible (including slightly off-screen for smooth scrolling)
         if (x > -totalCandleWidth * 2 && x < width + totalCandleWidth) {
           drawCandle(candle, x, yScale);
         }
       }
-      
-      // Draw price label
-      drawPriceLabel();
       
       lastTimestamp = timestamp;
     }
@@ -402,28 +326,14 @@ function initCandlestickChart() {
     animationFrame = requestAnimationFrame(animate);
   }
   
-  // Initialize
   resizeCanvas();
   initializeCandles();
   
-  // Handle resize with debounce for performance
-  let resizeTimeout;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-      resizeCanvas();
-    }, 100);
+  window.addEventListener('resize', () => {
+    setTimeout(resizeCanvas, 100);
   });
   
-  // Start animation
   animate();
-  
-  // Clean up
-  window.addEventListener('beforeunload', function() {
-    if (animationFrame) {
-      cancelAnimationFrame(animationFrame);
-    }
-  });
 }
 
 // Mouse Parallax Effect
@@ -463,24 +373,14 @@ function initParallax() {
   
   document.addEventListener('mouseleave', function() {
     if (!heroContent.classList.contains('show')) return;
-    
     currentX = 0;
     currentY = 0;
     heroContent.style.transform = 'translate(0, 0)';
     isAnimating = false;
   });
-  
-  document.addEventListener('mouseenter', function() {
-    currentX = 0;
-    currentY = 0;
-  });
 }
 
-// Add this new function to your script.js
-// Call it from your DOMContentLoaded event
-
-
-// ===== LIVE DERIV TICKER - REAL PRICES =====
+// ===== LIVE DERIV TICKER - ALL VOLATILITY + STEP INDICES =====
 function initSyntheticTicker() {
   // Check if ticker already exists
   if (document.querySelector('.synthetic-ticker')) return;
@@ -492,10 +392,11 @@ function initSyntheticTicker() {
   // Add to page
   document.body.appendChild(ticker);
   
-  // Create ticker structure
+  // Create ticker structure with ALL symbols (existing + new)
   ticker.innerHTML = `
     <div class="ticker-wrapper">
       <div class="ticker-content" id="tickerContent">
+        <!-- EXISTING VOLATILITY INDICES -->
         <div class="ticker-item">
           <span class="ticker-symbol">V75</span>
           <span class="ticker-price" id="price-V75">---</span>
@@ -507,6 +408,65 @@ function initSyntheticTicker() {
           <span class="ticker-change" id="change-V50">---</span>
         </div>
         <div class="ticker-item">
+          <span class="ticker-symbol">V100</span>
+          <span class="ticker-price" id="price-V100">---</span>
+          <span class="ticker-change" id="change-V100">---</span>
+        </div>
+        
+        <!-- NEW VOLATILITY INDICES (1s series) - Smallest to Largest -->
+        <div class="ticker-item">
+          <span class="ticker-symbol">V10s</span>
+          <span class="ticker-price" id="price-V10s">---</span>
+          <span class="ticker-change" id="change-V10s">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V15s</span>
+          <span class="ticker-price" id="price-V15s">---</span>
+          <span class="ticker-change" id="change-V15s">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V25s</span>
+          <span class="ticker-price" id="price-V25s">---</span>
+          <span class="ticker-change" id="change-V25s">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V30s</span>
+          <span class="ticker-price" id="price-V30s">---</span>
+          <span class="ticker-change" id="change-V30s">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V50s</span>
+          <span class="ticker-price" id="price-V50s">---</span>
+          <span class="ticker-change" id="change-V50s">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V75s</span>
+          <span class="ticker-price" id="price-V75s">---</span>
+          <span class="ticker-change" id="change-V75s">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V90s</span>
+          <span class="ticker-price" id="price-V90s">---</span>
+          <span class="ticker-change" id="change-V90s">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V100s</span>
+          <span class="ticker-price" id="price-V100s">---</span>
+          <span class="ticker-change" id="change-V100s">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V150s</span>
+          <span class="ticker-price" id="price-V150s">---</span>
+          <span class="ticker-change" id="change-V150s">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">V250s</span>
+          <span class="ticker-price" id="price-V250s">---</span>
+          <span class="ticker-change" id="change-V250s">---</span>
+        </div>
+        
+        <!-- BOOM & CRASH (existing) -->
+        <div class="ticker-item">
           <span class="ticker-symbol">B500</span>
           <span class="ticker-price" id="price-B500">---</span>
           <span class="ticker-change" id="change-B500">---</span>
@@ -516,10 +476,27 @@ function initSyntheticTicker() {
           <span class="ticker-price" id="price-C1000">---</span>
           <span class="ticker-change" id="change-C1000">---</span>
         </div>
+        
+        <!-- STEP INDICES - Smallest to Largest -->
         <div class="ticker-item">
-          <span class="ticker-symbol">V100</span>
-          <span class="ticker-price" id="price-V100">---</span>
-          <span class="ticker-change" id="change-V100">---</span>
+          <span class="ticker-symbol">ST100</span>
+          <span class="ticker-price" id="price-ST100">---</span>
+          <span class="ticker-change" id="change-ST100">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">ST200</span>
+          <span class="ticker-price" id="price-ST200">---</span>
+          <span class="ticker-change" id="change-ST200">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">ST400</span>
+          <span class="ticker-price" id="price-ST400">---</span>
+          <span class="ticker-change" id="change-ST400">---</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-symbol">ST500</span>
+          <span class="ticker-price" id="price-ST500">---</span>
+          <span class="ticker-change" id="change-ST500">---</span>
         </div>
       </div>
     </div>
@@ -533,20 +510,46 @@ function initSyntheticTicker() {
 const priceHistory = {};
 
 function connectDerivWebSocket() {
-  // Deriv WebSocket endpoint
-  const ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=1089'); // 1089 is test app_id
+  // Deriv WebSocket endpoint (use your own app_id)
+  const ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=1089'); // Replace with your app_id
   
-  // Symbol mapping - Deriv uses different symbols
+  // Complete symbol mapping for ALL indices
   const symbolMap = {
+    // Existing
     'V75': 'R_75',
     'V50': 'R_50',
     'V100': 'R_100',
     'B500': 'BOOM500',
-    'C1000': 'CRASH1000'
+    'C1000': 'CRASH1000',
+    
+    // New Volatility 1s indices
+    'V10s': '1HZ10V',
+    'V15s': '1HZ15V',
+    'V25s': '1HZ25V',
+    'V30s': '1HZ30V',
+    'V50s': '1HZ50V',
+    'V75s': '1HZ75V',
+    'V90s': '1HZ90V',
+    'V100s': '1HZ100V',
+    'V150s': 'R_150',
+    'V250s': 'R_250',
+    
+    // Step Indices
+    'ST100': 'STP100',
+    'ST200': 'STP200',
+    'ST400': 'STP400',
+    'ST500': 'STP500'
   };
   
-  // Map our display symbols to Deriv symbols
-  const ourSymbols = ['V75', 'V50', 'V100', 'B500', 'C1000'];
+  // All symbols we want to display
+  const ourSymbols = [
+    'V75', 'V50', 'V100',           // Existing volatility
+    'V10s', 'V15s', 'V25s', 'V30s',  // New volatility 1s (smallest first)
+    'V50s', 'V75s', 'V90s', 'V100s',  // More volatility 1s
+    'V150s', 'V250s',                 // Higher volatility
+    'B500', 'C1000',                   // Boom & Crash
+    'ST100', 'ST200', 'ST400', 'ST500' // Step indices
+  ];
   
   ws.onopen = () => {
     console.log('✅ Connected to Deriv WebSocket');
@@ -554,7 +557,10 @@ function connectDerivWebSocket() {
     // Subscribe to ticks for each symbol
     ourSymbols.forEach(sym => {
       const derivSym = symbolMap[sym];
-      if (!derivSym) return;
+      if (!derivSym) {
+        console.warn(`No mapping for symbol: ${sym}`);
+        return;
+      }
       
       const subscribeMsg = {
         ticks: derivSym,
@@ -633,35 +639,19 @@ function connectDerivWebSocket() {
   window.derivWs = ws;
 }
 
-// Update your DOMContentLoaded to include cleanup
-document.addEventListener('DOMContentLoaded', function() {
-  // ... existing code ...
-  initSyntheticTicker();
-});
-
-// Clean up on page unload
-window.addEventListener('beforeunload', function() {
-  if (window.derivWs) {
-    window.derivWs.close();
-  }
-});
-
-// ===== HORIZONTAL CIRCLES ANIMATION =====
+// HORIZONTAL CIRCLES
 function initHowItWorksCircles() {
   const circles = document.querySelectorAll('.step-circle');
   
-  // Scroll reveal
   function checkReveal() {
     circles.forEach((circle, index) => {
       const rect = circle.getBoundingClientRect();
       const isVisible = rect.top < window.innerHeight - 150;
       
       if (isVisible && !circle.classList.contains('revealed')) {
-        // Add delay for each circle
         setTimeout(() => {
           circle.classList.add('revealed');
           
-          // Animate connector line for previous
           if (index > 0) {
             const prevConnector = circle.previousElementSibling;
             if (prevConnector && prevConnector.classList.contains('circle-connector')) {
@@ -675,108 +665,41 @@ function initHowItWorksCircles() {
               }
             }
           }
-        }, index * 200); // Stagger effect
+        }, index * 200);
       }
     });
   }
   
-  // Initial check
   setTimeout(checkReveal, 500);
-  
-  // Check on scroll
   window.addEventListener('scroll', checkReveal);
   
-  // Parallax effect on hover
   circles.forEach(circle => {
     circle.addEventListener('mousemove', (e) => {
       const rect = circle.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      
       const angleX = (y - centerY) / 20;
       const angleY = (centerX - x) / 20;
       
       const inner = circle.querySelector('.circle-inner');
-      inner.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.02)`;
+      if (inner) {
+        inner.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.02)`;
+      }
     });
     
     circle.addEventListener('mouseleave', () => {
       const inner = circle.querySelector('.circle-inner');
-      inner.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+      if (inner) {
+        inner.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+      }
     });
   });
 }
 
-// ===== PERFORMANCE COUNTER ANIMATION =====
-function initPerformanceCounters() {
-  const counters = document.querySelectorAll('.performance-number');
-  const speed = 200; // Lower = faster
-  
-  // Set initial values to 0
-  counters.forEach(counter => {
-    counter.innerText = '0';
-  });
-  
-  // Function to start counting when element is visible
-  function startCounting(entry) {
-    const counter = entry.target;
-    const target = parseInt(counter.getAttribute('data-target'));
-    let count = 0;
-    
-    // For decimal numbers (like 12.8)
-    const isDecimal = target % 1 !== 0;
-    
-    const updateCounter = () => {
-      if (isDecimal) {
-        // Handle decimal numbers
-        const increment = target / 50;
-        count += increment;
-        
-        if (count < target) {
-          counter.innerText = count.toFixed(1);
-          requestAnimationFrame(updateCounter);
-        } else {
-          counter.innerText = target.toFixed(1);
-        }
-      } else {
-        // Handle whole numbers
-        const increment = target / 50;
-        count += increment;
-        
-        if (count < target) {
-          counter.innerText = Math.ceil(count);
-          requestAnimationFrame(updateCounter);
-        } else {
-          counter.innerText = target;
-        }
-      }
-    };
-    
-    updateCounter();
-  }
-  
-  // Set up intersection observer
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        startCounting(entry);
-        observer.unobserve(entry.target); // Only count once
-      }
-    });
-  }, { threshold: 0.5 });
-  
-  // Observe each counter
-  counters.forEach(counter => {
-    observer.observe(counter);
-  });
-}
-
-// ===== 3D GLOBE WITH THREE.JS =====
+// 3D GLOBE
 function init3DGlobe() {
-  // Load Three.js library
   const script = document.createElement('script');
   script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
   script.onload = setupGlobe;
@@ -787,21 +710,17 @@ function setupGlobe() {
   const container = document.getElementById('globeContainer');
   if (!container) return;
   
-  // Scene setup
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x060606);
   
-  // Camera
   const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 15;
   
-  // Renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
   container.appendChild(renderer.domElement);
   
-  // Lights
   const ambientLight = new THREE.AmbientLight(0x404040);
   scene.add(ambientLight);
   
@@ -809,10 +728,7 @@ function setupGlobe() {
   pointLight.position.set(5, 5, 5);
   scene.add(pointLight);
   
-  // Create the globe
   const geometry = new THREE.SphereGeometry(4, 64, 64);
-  
-  // Load texture
   const textureLoader = new THREE.TextureLoader();
   const texture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
   
@@ -825,7 +741,6 @@ function setupGlobe() {
   const globe = new THREE.Mesh(geometry, material);
   scene.add(globe);
   
-  // Add wireframe overlay for tech look
   const wireframeGeo = new THREE.SphereGeometry(4.05, 32, 32);
   const wireframeMat = new THREE.MeshBasicMaterial({
     color: 0xd4af37,
@@ -836,78 +751,15 @@ function setupGlobe() {
   const wireframe = new THREE.Mesh(wireframeGeo, wireframeMat);
   scene.add(wireframe);
   
-  // Add glowing dots (cities/trading hubs)
-  const dotsGeometry = new THREE.BufferGeometry();
-  const dotsCount = 200;
-  const positions = new Float32Array(dotsCount * 3);
-  const colors = new Float32Array(dotsCount * 3);
-  
-  for (let i = 0; i < dotsCount; i++) {
-    // Random points on sphere
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    const r = 4.1;
-    
-    const x = r * Math.sin(phi) * Math.cos(theta);
-    const y = r * Math.sin(phi) * Math.sin(theta);
-    const z = r * Math.cos(phi);
-    
-    positions[i*3] = x;
-    positions[i*3+1] = y;
-    positions[i*3+2] = z;
-    
-    // Random gold colors
-    colors[i*3] = 1; // R
-    colors[i*3+1] = 0.8; // G
-    colors[i*3+2] = 0.2; // B
-  }
-  
-  dotsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  dotsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-  
-  const dotsMaterial = new THREE.PointsMaterial({
-    size: 0.1,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.8,
-    blending: THREE.AdditiveBlending
-  });
-  
-  const dots = new THREE.Points(dotsGeometry, dotsMaterial);
-  scene.add(dots);
-  
-  // Add orbiting rings
-  const ringGeometry = new THREE.TorusGeometry(5, 0.05, 16, 100);
-  const ringMaterial = new THREE.MeshBasicMaterial({ color: 0xd4af37, transparent: true, opacity: 0.2 });
-  const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-  ring.rotation.x = Math.PI / 2;
-  ring.rotation.z = 0.3;
-  scene.add(ring);
-  
-  const ring2 = new THREE.TorusGeometry(5.5, 0.03, 16, 100);
-  const ring2Material = new THREE.MeshBasicMaterial({ color: 0xd4af37, transparent: true, opacity: 0.15 });
-  const ring2Mesh = new THREE.Mesh(ring2, ring2Material);
-  ring2Mesh.rotation.x = Math.PI / 3;
-  ring2Mesh.rotation.z = 0.5;
-  scene.add(ring2Mesh);
-  
-  // Animation
   function animate() {
     requestAnimationFrame(animate);
-    
-    // Rotate globe and rings
     globe.rotation.y += 0.0005;
     wireframe.rotation.y += 0.0005;
-    dots.rotation.y += 0.0005;
-    ring.rotation.y += 0.0003;
-    ring2Mesh.rotation.y += 0.0004;
-    
     renderer.render(scene, camera);
   }
   
   animate();
   
-  // Handle resize
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -915,15 +767,12 @@ function setupGlobe() {
   });
 }
 
-
-// ===== TESTIMONIAL WALL - OPTIONAL ENHANCEMENTS =====
+// TESTIMONIAL WALL
 function initTestimonialWall() {
-  // Add random profit badges for variation
   const profitBadges = document.querySelectorAll('.profit-badge');
   
   setInterval(() => {
     profitBadges.forEach(badge => {
-      // Randomly update profits to make it feel live
       if (Math.random() > 0.7) {
         const current = badge.textContent;
         const num = parseFloat(current.replace(/[^0-9.-]+/g, ''));
@@ -933,40 +782,297 @@ function initTestimonialWall() {
       }
     });
   }, 5000);
-  
-  // Optional: Duplicate tracks for seamless scrolling
-  const tracks = document.querySelectorAll('.testimonial-track');
-  tracks.forEach(track => {
-    const cards = track.innerHTML;
-    // Uncomment below if you need more cards for seamless loop
-    // track.innerHTML = cards + cards;
-  });
 }
 
+// THE JMJ ADVANTAGE
+function initJmjAdvantage() {
+  initAccountAnimation();
+  initPoolAnimation();
+  initSignalsAnimation();
+  initMentorAnimation();
+  
+  const rows = document.querySelectorAll('.service-row');
+  
+  function checkVisibility() {
+    rows.forEach((row, index) => {
+      const rect = row.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight - 100;
+      
+      if (isVisible && !row.classList.contains('visible')) {
+        setTimeout(() => {
+          row.classList.add('visible');
+        }, index * 200);
+      }
+    });
+  }
+  
+  window.addEventListener('scroll', checkVisibility);
+  setTimeout(checkVisibility, 100);
+}
 
-// ===== RESULTS GALLERY - HORIZONTAL SCROLL =====
-function initResultsHorizontal() {
-  const track = document.getElementById('resultsTrack');
-  const prevBtn = document.getElementById('resultsPrev');
-  const nextBtn = document.getElementById('resultsNext');
+function initAccountAnimation() {
+  const canvas = document.getElementById('animationAccount');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let rotation = 0;
+  
+  function resize() {
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    const centerX = width / 2;
+    const centerY = height / 2;
+    
+    // Draw rotating gears
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(rotation);
+    
+    // Main gear
+    ctx.beginPath();
+    ctx.arc(0, 0, 40, 0, Math.PI * 2);
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 3;
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = '#d4af37';
+    ctx.stroke();
+    
+    // Gear teeth
+    for (let i = 0; i < 12; i++) {
+      const angle = (i / 12) * Math.PI * 2;
+      const x1 = Math.cos(angle) * 45;
+      const y1 = Math.sin(angle) * 45;
+      const x2 = Math.cos(angle) * 55;
+      const y2 = Math.sin(angle) * 55;
+      
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    }
+    
+    ctx.restore();
+    
+    rotation += 0.02;
+    requestAnimationFrame(draw);
+  }
+  
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+
+function initPoolAnimation() {
+  const canvas = document.getElementById('animationPool');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particles = [];
+  
+  function resize() {
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
+    
+    particles = [];
+    for (let i = 0; i < 10; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 10 + 5,
+        speed: Math.random() * 1 + 0.5
+      });
+    }
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw pool
+    ctx.beginPath();
+    ctx.arc(width/2, height/2, 60, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(212, 175, 55, 0.1)';
+    ctx.shadowBlur = 30;
+    ctx.shadowColor = '#d4af37';
+    ctx.fill();
+    
+    particles.forEach(p => {
+      p.y -= p.speed;
+      if (p.y < 0) p.y = height;
+      
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size/2, 0, Math.PI * 2);
+      ctx.fillStyle = '#d4af37';
+      ctx.shadowBlur = 15;
+      ctx.fill();
+      
+      ctx.fillStyle = '#000';
+      ctx.font = `${p.size/2}px Arial`;
+      ctx.fillText('$', p.x-3, p.y+2);
+    });
+    
+    requestAnimationFrame(draw);
+  }
+  
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+
+function initSignalsAnimation() {
+  const canvas = document.getElementById('animationSignals');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let angle = 0;
+  
+  function resize() {
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    // Radar circles
+    for (let i = 1; i <= 3; i++) {
+      ctx.beginPath();
+      ctx.arc(width/2, height/2, 30 * i, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.2)';
+      ctx.stroke();
+    }
+    
+    // Scanning line
+    ctx.beginPath();
+    ctx.moveTo(width/2, height/2);
+    ctx.lineTo(width/2 + Math.cos(angle) * 90, height/2 + Math.sin(angle) * 90);
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 2;
+    ctx.shadowBlur = 15;
+    ctx.stroke();
+    
+    angle += 0.02;
+    requestAnimationFrame(draw);
+  }
+  
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+
+function initMentorAnimation() {
+  const canvas = document.getElementById('animationMentor');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let step = 0;
+  
+  function resize() {
+    width = canvas.clientWidth;
+    height = canvas.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    
+    const startX = width/4;
+    const startY = height - 50;
+    
+    for (let i = 0; i < 4; i++) {
+      const x = startX + i * 50;
+      const y = startY - i * 40 - Math.sin(step + i) * 5;
+      
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = '#d4af37';
+      
+      // Step
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.3)';
+      ctx.fillRect(x - 20, y - 8, 40, 16);
+      
+      // Figure at top
+      if (i === 3) {
+        ctx.beginPath();
+        ctx.arc(x, y - 20, 8, 0, Math.PI * 2);
+        ctx.fillStyle = '#d4af37';
+        ctx.fill();
+      }
+    }
+    
+    step += 0.03;
+    requestAnimationFrame(draw);
+  }
+  
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+
+// ===== RESULTS GALLERY - FIXED VERSION =====
+function initResultsGallery() {
+  console.log('Starting results gallery...');
+  
+  const galleryTrack = document.getElementById('resultsTrack');
+  const prevButton = document.getElementById('resultsPrev');
+  const nextButton = document.getElementById('resultsNext');
   const dotsContainer = document.getElementById('resultsDots');
   
-  if (!track) return;
+  if (!galleryTrack) {
+    console.log('Track not found');
+    return;
+  }
   
-  const cards = document.querySelectorAll('.result-card');
-  const cardWidth = cards[0]?.offsetWidth + 25; // width + gap
+  const galleryCards = document.querySelectorAll('.result-card');
+  console.log('Found', galleryCards.length, 'cards');
+  
+  if (galleryCards.length === 0) return;
+  
+  const cardWidth = galleryCards[0].offsetWidth + 25;
   let currentIndex = 0;
   let autoScrollInterval;
-  let startX, isDragging = false;
   
-  // Calculate max index
   const visibleCount = window.innerWidth > 900 ? 3 : (window.innerWidth > 600 ? 2 : 1);
-  const maxIndex = Math.max(0, cards.length - visibleCount);
+  const maxIndex = Math.max(0, galleryCards.length - visibleCount);
   
-  // Create dots
+  function nextSlide() {
+    if (currentIndex < maxIndex) {
+      currentIndex++;
+    } else {
+      currentIndex = 0;
+    }
+    galleryTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    updateDots();
+  }
+  
+  function prevSlide() {
+    if (currentIndex > 0) {
+      currentIndex--;
+    } else {
+      currentIndex = maxIndex;
+    }
+    galleryTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    updateDots();
+  }
+  
   function createDots() {
+    if (!dotsContainer) return;
     dotsContainer.innerHTML = '';
-    const dotCount = Math.ceil(cards.length / visibleCount);
+    const dotCount = Math.ceil(galleryCards.length / visibleCount);
     
     for (let i = 0; i < dotCount; i++) {
       const dot = document.createElement('span');
@@ -974,16 +1080,18 @@ function initResultsHorizontal() {
       dot.dataset.index = i * visibleCount;
       
       dot.addEventListener('click', () => {
-        goToSlide(i * visibleCount);
+        currentIndex = i * visibleCount;
+        galleryTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+        updateDots();
+        stopAutoScroll();
+        setTimeout(startAutoScroll, 5000);
       });
       
       dotsContainer.appendChild(dot);
     }
-    
     updateDots();
   }
   
-  // Update active dot
   function updateDots() {
     const dots = document.querySelectorAll('.result-dot');
     const activeDotIndex = Math.floor(currentIndex / visibleCount);
@@ -993,129 +1101,130 @@ function initResultsHorizontal() {
     });
   }
   
-  // Go to slide
-  function goToSlide(index) {
-    currentIndex = Math.max(0, Math.min(index, maxIndex));
-    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    updateDots();
-  }
-  
-  // Next slide
-  function nextSlide() {
-    if (currentIndex < maxIndex) {
-      goToSlide(currentIndex + 1);
-    } else {
-      goToSlide(0); // Loop back to start
-    }
-  }
-  
-  // Prev slide
-  function prevSlide() {
-    if (currentIndex > 0) {
-      goToSlide(currentIndex - 1);
-    } else {
-      goToSlide(maxIndex); // Loop to end
-    }
-  }
-  
-  // Auto scroll (slow)
   function startAutoScroll() {
-    stopAutoScroll();
-    autoScrollInterval = setInterval(nextSlide, 4000); // 4 seconds
-  }
+  stopAutoScroll();
   
-  function stopAutoScroll() {
-    if (autoScrollInterval) {
-      clearInterval(autoScrollInterval);
-    }
-  }
+  let startTime = null;
+  const scrollDuration = 80000; // Time to complete one full scroll (8 seconds)
+  const totalDistance = maxIndex * cardWidth;
   
-  // Touch events for swipe
-  track.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-    stopAutoScroll();
-  });
-  
-  track.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-  });
-  
-  track.addEventListener('touchend', (e) => {
-    if (!isDragging) return;
+  function continuousScroll(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = (elapsed % scrollDuration) / scrollDuration; // Loop continuously
     
-    const endX = e.changedTouches[0].clientX;
-    const diff = startX - endX;
+    // Calculate position based on progress
+    const scrollPosition = progress * totalDistance;
+    
+    // Find which card should be at the start
+    const targetIndex = Math.floor(scrollPosition / cardWidth) % (maxIndex + 1);
+    
+    // Apply smooth transform
+    galleryTrack.style.transform = `translateX(-${targetIndex * cardWidth}px)`;
+    
+    autoScrollInterval = requestAnimationFrame(continuousScroll);
+  }
+  
+  autoScrollInterval = requestAnimationFrame(continuousScroll);
+}
+
+function stopAutoScroll() {
+  if (autoScrollInterval) {
+    cancelAnimationFrame(autoScrollInterval);
+    autoScrollInterval = null;
+  }
+}
+  
+  if (prevButton) {
+    prevButton.addEventListener('click', () => {
+      prevSlide();
+      stopAutoScroll();
+      setTimeout(startAutoScroll, 5000);
+    });
+  }
+  
+  if (nextButton) {
+    nextButton.addEventListener('click', () => {
+      nextSlide();
+      stopAutoScroll();
+      setTimeout(startAutoScroll, 5000);
+    });
+  }
+  
+  let touchStartX = 0;
+  let touchEndX = 0;
+  
+  galleryTrack.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    stopAutoScroll();
+  });
+  
+  galleryTrack.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
     
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
-        nextSlide(); // Swipe left
+        nextSlide();
       } else {
-        prevSlide(); // Swipe right
+        prevSlide();
       }
     }
     
-    isDragging = false;
-    startAutoScroll();
+    setTimeout(startAutoScroll, 3000);
   });
   
-  // Mouse drag prevention
-  track.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-  });
+  galleryTrack.addEventListener('mouseenter', stopAutoScroll);
+  galleryTrack.addEventListener('mouseleave', startAutoScroll);
   
-  // Arrow buttons
-  if (prevBtn) prevBtn.addEventListener('click', () => {
-    prevSlide();
-    stopAutoScroll();
-    setTimeout(startAutoScroll, 5000);
-  });
-  
-  if (nextBtn) nextBtn.addEventListener('click', () => {
-    nextSlide();
-    stopAutoScroll();
-    setTimeout(startAutoScroll, 5000);
-  });
-  
-  // Pause auto-scroll on hover
-  track.addEventListener('mouseenter', stopAutoScroll);
-  track.addEventListener('mouseleave', startAutoScroll);
-  
-  // Initialize
   createDots();
   startAutoScroll();
   
-  // Handle resize
   window.addEventListener('resize', () => {
-    // Recalculate card width and max index
-    const newCardWidth = cards[0]?.offsetWidth + 25;
+    const newCardWidth = galleryCards[0]?.offsetWidth + 25;
     const newVisibleCount = window.innerWidth > 900 ? 3 : (window.innerWidth > 600 ? 2 : 1);
-    const newMaxIndex = Math.max(0, cards.length - newVisibleCount);
+    const newMaxIndex = Math.max(0, galleryCards.length - newVisibleCount);
     
-    // Adjust current index if needed
     if (currentIndex > newMaxIndex) {
       currentIndex = newMaxIndex;
     }
     
-    goToSlide(currentIndex);
-    createDots(); // Recreate dots for new visible count
+    galleryTrack.style.transform = `translateX(-${currentIndex * newCardWidth}px)`;
+    createDots();
+  });
+  
+  console.log('Results gallery ready');
+}
+
+// FAQ ACCORDION
+function initFaq() {
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    
+    question.addEventListener('click', () => {
+      faqItems.forEach(otherItem => {
+        if (otherItem !== item && otherItem.classList.contains('active')) {
+          otherItem.classList.remove('active');
+        }
+      });
+      item.classList.toggle('active');
+    });
   });
 }
 
-// ===== ABOUT SECTION - SCROLL TRIGGERED =====
+// ABOUT SECTION
 function initAboutSection() {
   const imageWrapper = document.getElementById('aboutImage');
   const textBox = document.getElementById('aboutText');
   
   if (!imageWrapper || !textBox) return;
   
-  // Check if section is already visible
   function checkVisibility() {
     const rect = document.getElementById('about').getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
-    // If section is in viewport
     if (rect.top < windowHeight - 100 && rect.bottom > 100) {
       imageWrapper.classList.add('visible');
       textBox.classList.add('visible');
@@ -1123,47 +1232,158 @@ function initAboutSection() {
     }
   }
   
-  // Check on scroll
   window.addEventListener('scroll', checkVisibility);
-  
-  // Check immediately
   setTimeout(checkVisibility, 300);
 }
 
-// ===== PILLARS SECTION - SCROLL TRIGGERED =====
+// PILLARS SECTION
 function initPillars() {
   const pillars = document.querySelectorAll('.pillar-card');
   if (!pillars.length) return;
   
   function checkVisibility() {
-    let anyVisible = false;
-    
     pillars.forEach((pillar, index) => {
       const rect = pillar.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      if (rect.top < windowHeight - 100 && rect.bottom > 100) {
-        // Stagger the animation
+      if (rect.top < windowHeight - 100 && rect.bottom > 100 && !pillar.classList.contains('visible')) {
         setTimeout(() => {
           pillar.classList.add('visible');
         }, index * 150);
-        anyVisible = true;
       }
     });
-    
-    // Remove listener once all are visible
-    if (anyVisible && document.querySelectorAll('.pillar-card.visible').length === pillars.length) {
-      window.removeEventListener('scroll', checkVisibility);
-    }
   }
   
   window.addEventListener('scroll', checkVisibility);
   setTimeout(checkVisibility, 300);
 }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-  initAboutSection();
-  initPillars();
-});
+// ===== GOLD STATS SECTION WITH PARTICLES =====
+function initStatsSection() {
+  console.log('Stats section initializing...');
+  
+  // Initialize particles
+  initStatsParticles();
+  
+  // Initialize counters
+  initStatsCounter();
+}
+
+// ===== FLOATING PARTICLES =====
+function initStatsParticles() {
+  const particlesContainer = document.getElementById('statsParticles');
+  if (!particlesContainer) return;
+  
+  // Clear any existing particles
+  particlesContainer.innerHTML = '';
+  
+  // Create 30 particles
+  for (let i = 0; i < 30; i++) {
+    createParticle(particlesContainer);
+  }
+}
+
+function createParticle(container) {
+  const particle = document.createElement('div');
+  particle.className = 'stats-particle';
+  
+  // Random properties
+  const size = Math.random() * 8 + 2; // 2-10px
+  const left = Math.random() * 100; // 0-100%
+  const top = Math.random() * 100; // 0-100%
+  const delay = Math.random() * 5; // 0-5s delay
+  const duration = Math.random() * 6 + 4; // 4-10s duration
+  
+  particle.style.width = size + 'px';
+  particle.style.height = size + 'px';
+  particle.style.left = left + '%';
+  particle.style.top = top + '%';
+  particle.style.animation = `floatParticle ${duration}s linear ${delay}s infinite`;
+  particle.style.opacity = '0';
+  
+  container.appendChild(particle);
+}
+
+// ===== STATS COUNTER =====
+function initStatsCounter() {
+  console.log('Stats counter initializing...');
+  
+  const stat1 = document.getElementById('stat1');
+  const stat2 = document.getElementById('stat2');
+  const stat3 = document.getElementById('stat3');
+  
+  if (!stat1 || !stat2 || !stat3) {
+    console.log('Stats elements not found');
+    return;
+  }
+  
+  // Get target values
+  const target1 = parseFloat(stat1.dataset.target); // 100
+  const target2 = parseFloat(stat2.dataset.target); // 300
+  const target3 = parseFloat(stat3.dataset.target); // 10.5
+  
+  let animated = false;
+  
+  function animateNumber(element, target, isCurrency = false, isDecimal = false) {
+    let current = 0;
+    const increment = target / 60; // Divide into 60 steps over 2 seconds
+    const stepTime = 2000 / 60; // ~33ms per step
+    
+    const timer = setInterval(() => {
+      current += increment;
+      
+      if (current >= target) {
+        current = target;
+        
+        if (isCurrency) {
+          element.textContent = `$${Math.floor(current)}`;
+        } else if (isDecimal) {
+          element.textContent = current.toFixed(1);
+        } else {
+          element.textContent = Math.floor(current);
+        }
+        
+        clearInterval(timer);
+        return;
+      }
+      
+      if (isCurrency) {
+        element.textContent = `$${Math.floor(current)}`;
+      } else if (isDecimal) {
+        element.textContent = current.toFixed(1);
+      } else {
+        element.textContent = Math.floor(current);
+      }
+    }, stepTime);
+  }
+  
+  // Check if element is in viewport
+  function isInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.top < window.innerHeight - 50 &&
+      rect.bottom > 50
+    );
+  }
+  
+  // Check on scroll
+  function checkStats() {
+    if (!animated && isInViewport(document.querySelector('.stats-section'))) {
+      animated = true;
+      
+      // Start animations
+      animateNumber(stat1, target1, false, false); // 100
+      animateNumber(stat2, target2, true, false);  // $300
+      animateNumber(stat3, target3, false, true);  // 10.5
+      
+      window.removeEventListener('scroll', checkStats);
+    }
+  }
+  
+  // Listen for scroll
+  window.addEventListener('scroll', checkStats);
+  
+  // Check immediately in case already visible
+  setTimeout(checkStats, 500);
+}
 
