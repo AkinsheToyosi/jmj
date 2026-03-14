@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forex Signals & Mentorship</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="your-logo2.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+
+<header class="pill-header" id="header">
+  <div class="pill-container">
+    
+    <!-- Logo Left -->
+    <div class="pill-logo">
+      <a href="index.html">
+        <img src="your-logo3.jpg" alt="JMJ Trading Logo" class="logo-img">
+      </a>
+    </div>
+    
+    <!-- Navigation Middle -->
+    <nav class="pill-nav">
+      <a href="#about" class="pill-link">About</a>
+      <a href="#services" class="pill-link">Services</a>
+      <a href="#download" class="pill-link">Contact</a>
+      <a href="FAQs.html" class="pill-link">FAQs</a>
+    </nav>
+    
+    <!-- Right Side Buttons -->
+    <div class="pill-actions">
+      <a href="#download" class="pill-btn download-btn">
+        <i class="fab fa-google-play"></i>
+        <span>Download App</span>
+      </a>
+      <a href="#get-started" class="pill-btn primary-btn">Get Started</a>
+    </div>
+    
+    <!-- Hamburger (mobile) -->
+    <button class="pill-hamburger" id="hamburger">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    
+  </div>
+</header>
+
+<!-- Mobile Menu - UPDATED with social icons -->
+<div class="mobile-menu" id="mobileMenu">
+  <nav class="mobile-nav-links">
+    <a href="#about" class="mobile-nav-link">About</a>
+    <a href="#services" class="mobile-nav-link">Services</a>
+    <a href="#download" class="mobile-nav-link">Contact</a>
+    <a href="FAQs.html" class="mobile-nav-link">FAQs</a>
+    <a href="#get-started" class="mobile-get-started">Get Started</a>
+  </nav>
+  
+  <!-- Social Icons at bottom of mobile menu -->
+  <div class="mobile-social">
+    <a href="#" class="mobile-social-icon" aria-label="Telegram">
+      <i class="fab fa-telegram-plane"></i>
+    </a>
+    <a href="#" class="mobile-social-icon" aria-label="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="#" class="mobile-social-icon" aria-label="Snapchat">
+      <i class="fab fa-snapchat-ghost"></i>
+    </a>
+    <a href="#" class="mobile-social-icon" aria-label="YouTube">
+      <i class="fab fa-youtube"></i>
+    </a>
+  </div>
+</div>
+
+<!-- FAQ SECTION -->
+<section class="faq-section" id="faq">
+  <div class="faq-container">
+    
+    <!-- Headline - reduced padding -->
+    <h2 class="faq-title">FREQUENTLY ASKED QUESTIONS</h2>
+    
+    <!-- FAQ Grid -->
+    <div class="faq-grid">
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">01</span> -->
+          <h3>How do I start with JMJ?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>Simply create an account, choose your preferred service (Pool Funding, Signals, Account Management, or Mentorship), and complete the verification process. Most users are fully set up within 24 hours.</p>
+        </div>
+      </div>
+      
+     
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">02</span> -->
+          <h3>What's the minimum deposit?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>For Pool Funding, you can start with as little as $250. Signals and Mentorship have different entry points starting from $50/month. Account Management typically requires a minimum of $3,000.</p>
+        </div>
+      </div>
+      
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">03</span> -->
+          <h3>Can I withdraw my funds anytime?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>Yes. Pool Funding has monthly liquidity windows, while personal accounts under Signals and Mentorship allow withdrawals anytime. Account Management has a 30-day notice period for larger withdrawals.</p>
+        </div>
+      </div>
+      
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">04</span> -->
+          <h3>Which broker do you use?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>We trade exclusively on Deriv, a regulated broker specializing in synthetic indices. All JMJ services are built around Deriv's instruments including Volatility indices, Step index, and Jump indices.</p>
+        </div>
+      </div>
+      
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">05</span> -->
+          <h3>Is JMJ available in my country?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>JMJ services are available globally, except in countries where forex trading is restricted. Check our terms page for the full list of restricted jurisdictions or contact support.</p>
+        </div>
+      </div>
+      
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">06</span> -->
+          <h3>How is JMJ different from other signal providers?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>We offer multiple ways to participate, not just signals. Pool Funding, Account Management, and Mentorship provide flexibility. Our 92% accuracy is verified and our team consists of active traders, not just analysts.</p>
+        </div>
+      </div>
+      
+     
+      <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">07</span> -->
+          <h3>What support do I get after joining?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>All members get access to our private community, 24/7 chat support, and regular market updates. Mentorship students receive 1-on-1 sessions, while Account Management clients get monthly performance reviews.</p>
+        </div>
+      </div>
+      
+       <div class="faq-item">
+        <div class="faq-question">
+          <!-- <span class="faq-number">07</span> -->
+          <h3>What if i have more questions?</h3>
+          <span class="faq-icon">▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>You can reach our support team via Email. Contact us on Telegram for faster response.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Contact Button -->
+<div class="faq-contact">
+  <a href="#contact" class="faq-contact-button">Still have questions? Contact us</a>
+</div>
+    
+  </div>
+</section>
+
+
+<section class="download-section" id="download">
+  <div class="download-container">
+    
+    <!-- Right side - Phone Mockup (now on RIGHT) -->
+    <div class="download-mockup right">
+      <img src="your-phone-mockup.jpg" alt="JMJ Trading App" class="mockup-image">
+      <div class="mockup-glow"></div>
+    </div>
+    
+    <!-- Left side - Content (now on LEFT) -->
+    <div class="download-content left">
+      <!-- <span class="download-badge">MOBILE APP</span> -->
+      <h2 class="download-title">Trade Anytime,<br><span class="gold-text">Anywhere</span></h2>
+      <p class="download-text">Get real-time signals, track your portfolio, and manage your account directly from your mobile device.</p>
+      
+      <div class="download-features">
+        <div class="feature-item">
+          <span class="feature-icon">📱</span>
+          <span>Real-time push notifications</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">📊</span>
+          <span>Live portfolio tracking</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">⚡</span>
+          <span>Instant signal execution</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🔔</span>
+          <span>Price alerts</span>
+        </div>
+      </div>
+      
+      <!-- Button Group - 3 Buttons -->
+      <div class="button-group">
+        
+        <!-- Google Play Button -->
+        <a href="#" class="action-btn google-btn">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="google-play-logo">
+        </a>
+        
+        <!-- Register on Web Button -->
+        <a href="#" class="action-btn web-btn">
+          <i class="fas fa-globe"></i>
+          <span>Register on Web</span>
+        </a>
+        
+        <!-- Telegram Channel Button -->
+        <a href="#" class="action-btn telegram-btn">
+          <i class="fab fa-telegram-plane"></i>
+          <span>Join Free Telegram</span>
+        </a>
+        
+      </div>
+      
+      <!-- Optional: Small note -->
+      <p class="download-note">All services available on web and mobile</p>
+    </div>
+    
+  </div>
+</section>
+
+<!-- FOOTER SECTION -->
+<footer class="footer-section">
+  <div class="footer-container">
+    
+    <!-- Main Footer Grid - 4 Columns -->
+    <div class="footer-grid">
+      
+      <!-- Column 1 - Logo -->
+      <div class="footer-col logo-col">
+        <img src="your-logo3.jpg" alt="JMJ Trading" class="footer-logo">
+      </div>
+      
+      <!-- Column 2 - Quick Links -->
+      <div class="footer-col">
+        <h4 class="footer-title">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="FAQs.html">FAQ</a></li>
+          <li><a href="terms.html" target="_blank">Terms of Service</a></li>
+        </ul>
+      </div>
+      
+      <!-- Column 3 - Services -->
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="#mentorship">Mentorship</a></li>
+          <li><a href="#account">Account Management</a></li>
+          <li><a href="#pool">Pool Funding</a></li>
+          <li><a href="#signals">Signals</a></li>
+        </ul>
+      </div>
+      
+      <!-- Column 4 - Connect (Social) -->
+      <div class="footer-col">
+        <h4 class="footer-title">Connect</h4>
+        <div class="social-icons">
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+          <a href="#" class="social-icon" aria-label="Snapchat"><i class="fab fa-snapchat-ghost"></i></a>
+          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- Compliance Card - Compact with White Background -->
+    <div class="compliance-card">
+      <img src="cac-logo.png" alt="CAC Registered" class="compliance-logo">
+      <div class="compliance-text">
+        <span class="compliance-title">JMJ Trading Platform</span>
+        <span class="compliance-badge">Secure & Verified</span>
+      </div>
+    </div>
+    
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <p class="copyright">&copy; 2026 JMJ Trading. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="#">Privacy Policy</a>
+        <span class="separator">|</span>
+        <a href="terms.html" target="_blank">Terms of Service</a>
+        <span class="separator">|</span>
+        <a href="#">Risk Disclosure</a>
+      </div>
+    </div>
+    
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ws/8.13.0/websocket.js"></script>
+</body>
+</html>
