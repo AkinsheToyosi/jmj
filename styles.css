@@ -1123,7 +1123,7 @@ body {
 
 @media (max-width: 480px) {
   .globe-section {
-    margin-top: -500px !important;  /* Adjust this number */
+    margin-top: -300px !important;  /* Adjust this number */
     padding-top: 0 !important;
   }
 }
