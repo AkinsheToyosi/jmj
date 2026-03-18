@@ -461,26 +461,28 @@ body {
   transform: translateY(0);
 }
 
-/* Primary Button */
-.primary-btn {
+/* Primary Button - UPDATED SELECTOR */
+.hero-primary-btn {
   background: linear-gradient(90deg, #d4af37, #ffd700);
   border: none;
-  padding: 14px 32px;
+  padding: 20px 42px;
   border-radius: 30px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 40px;
   color: #000;
+  text-decoration: none;      /* Added for link */
+  display: inline-block;       /* Added for link */
   transition: all 0.3s ease;
 }
 
-.primary-btn:hover {
+.hero-primary-btn:hover {
   transform: scale(1.05);
   box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
 }
 
-/* Secondary Button */
-.secondary-btn {
+/* Secondary Button - REMOVED (commented out) */
+/* .secondary-btn {
   background: transparent;
   border: 1px solid #d4af37;
   color: #d4af37;
@@ -495,7 +497,7 @@ body {
 .secondary-btn:hover {
   background: #d4af37;
   color: #000;
-}
+} */
 
 /* Remove old particles if needed */
 .particles {
@@ -508,27 +510,26 @@ body {
   pointer-events: none;
 }
 
-/* Responsive */
+/* Responsive - Tablet (768px) */
 @media (max-width: 768px) {
   .hero-content-video {
     padding: 0 20px;
   }
   
- .video-background {
-    top: 2%;        /* Less top margin on mobile */
-    height: 60%;    /* Shorter video on mobile */
-    width: 96%;     /* Slightly wider on mobile */
-    left: 2%;       /* Center better on small screens */
-    border-radius: 12px; /* Slightly smaller radius */
+  .video-background {
+    top: 2%;
+    height: 60%;
+    width: 96%;
+    left: 2%;
+    border-radius: 12px;
   }
   
   .hero-text-container {
-    margin-top: 80px;  /* Less margin on mobile */
+    margin-top: 80px;
     padding-left: 20px;
     padding-right: 20px;
   }
   
-
   .typewriter-line {
     font-size: 48px;
   }
@@ -545,44 +546,43 @@ body {
   }
 }
 
+/* Mobile (480px) */
 @media (max-width: 480px) {
+  
   .video-background {
-    height: 60%;     /* Taller than before to contain text */
+    height: 40%;
     top: 10%;
     width: 94%;
     left: 3%;
   }
   
-   .hero-text-container {
-    margin-top: 15px;        /* REDUCED - moves text higher */
-    padding-left: 10px;       /* REDUCED - moves text left */
-    padding-right: 5px;
-    max-width: 100%;
-    position: relative;
-    z-index: 3;
+  .hero-text-container {
+    transform: translateY(10px) !important;
   }
 
-    .typewriter-line {
-    font-size: 28px;
-    line-height: 1.2;
-    margin-bottom: 2px;       /* REDUCED - less space between lines */
-    text-align: left;         /* Ensures left alignment */
-  }
-
-   .hero-buttons-video {
-    margin-top: 15px;
+  .typewriter-container {
+    transform: translateY(-200px) !important;  
+    margin-left: -70px;
   }
   
-  .primary-btn, .secondary-btn {
-    padding: 10px 20px;   /* Smaller buttons */
-    font-size: 14px;
-  }
-
   .typewriter-line {
-    font-size: 36px;
+    font-size: 32px;
+    line-height: 1.2;
+    margin-bottom: 2px;
+    text-align: left;
+  }
+  
+  .hero-buttons-video {
+    transform: translateY(-208px) !important;
+    margin-left: -70px;
+    gap: 8px;
+  }
+  
+  .hero-primary-btn {
+    padding: 8px 16px;
+    font-size: 22px;
   }
 }
-/* Add to your existing CSS file */
 
 /* SYNTHETIC INDICES TICKER */
 .synthetic-ticker {
@@ -1118,6 +1118,13 @@ body {
   .floating-stats {
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .globe-section {
+    margin-top: -500px !important;  /* Adjust this number */
+    padding-top: 0 !important;
   }
 }
 
