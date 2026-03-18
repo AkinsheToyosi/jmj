@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize all components
   initEntranceAnimation();
-  initParticles();
-  initCandlestickChart();
-  initParallax();
+  // initParticles();
+  // initCandlestickChart();
+  // initParallax();
   initSyntheticTicker();
   initHeader();
-  initHowItWorksCircles();
+  // initHowItWorksCircles();
   init3DGlobe();
   initTestimonialWall();
   initJmjAdvantage();
@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initAboutSection();
   initPillars();
   initStatsSection();
+  initTypewriterHero();
   // initHowItWorks(); // Commented out if not ready
 });
 
@@ -1373,7 +1374,7 @@ function initStatsCounter() {
       
       // Start animations
       animateNumber(stat1, target1, false, false); // 100
-      animateNumber(stat2, target2, true, false);  // $300
+      animateNumber(stat2, target2, false, false);  // $300
       animateNumber(stat3, target3, false, true);  // 10.5
       
       window.removeEventListener('scroll', checkStats);
@@ -1386,4 +1387,74 @@ function initStatsCounter() {
   // Check immediately in case already visible
   setTimeout(checkStats, 500);
 }
+
+// ===== TYPEWRITER HERO SECTION =====
+function initTypewriterHero() {
+  console.log('Initializing typewriter hero...');
+  
+  const line1 = document.getElementById('line1');
+  const line2 = document.getElementById('line2');
+  const line3 = document.getElementById('line3');
+  const buttons = document.getElementById('heroButtons');
+  
+  if (!line1 || !line2 || !line3 || !buttons) return;
+  
+  // Typewriter sequence
+  function startTypewriter() {
+    // Line 1
+    setTimeout(() => {
+      line1.classList.add('typing');
+      console.log('Typing line 1');
+    }, 500);
+    
+    // Line 2 (starts after line 1 finishes)
+    setTimeout(() => {
+      line1.classList.remove('typing');
+      line1.classList.add('completed');
+      line2.classList.add('typing');
+      console.log('Typing line 2');
+    }, 1800); // 500 + 1000 (typing) + 300 pause
+    
+    // Line 3 (starts after line 2 finishes)
+    setTimeout(() => {
+      line2.classList.remove('typing');
+      line2.classList.add('completed');
+      line3.classList.add('typing');
+      console.log('Typing line 3');
+    }, 3100); // 1800 + 1000 + 300
+    
+    // All complete, show buttons
+    setTimeout(() => {
+      line3.classList.remove('typing');
+      line3.classList.add('completed');
+      buttons.classList.add('visible');
+      console.log('Typewriter complete, showing buttons');
+    }, 4400); // 3100 + 1000 + 300
+  }
+  
+  // Start the sequence when page loads
+  startTypewriter();
+  
+  // Optional: Add video play/pause based on visibility
+  const video = document.getElementById('heroVideo');
+  if (video) {
+    // Ensure video plays
+    video.play().catch(e => console.log('Video autoplay failed:', e));
+    
+    // Pause video when not in viewport (saves bandwidth)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.3 });
+    
+    observer.observe(document.querySelector('.hero-video'));
+  }
+}
+
+
 
