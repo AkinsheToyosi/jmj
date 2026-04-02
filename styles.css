@@ -465,11 +465,11 @@ body {
 .hero-primary-btn {
   background: linear-gradient(90deg, #d4af37, #ffd700);
   border: none;
-  padding: 20px 42px;
+  padding: 10px 22px;
   border-radius: 30px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 28px;
   color: #000;
   text-decoration: none;      /* Added for link */
   display: inline-block;       /* Added for link */
