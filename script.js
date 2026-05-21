@@ -1458,3 +1458,30 @@ function initTypewriterHero() {
 
 
 
+// ===== THEME SWITCHING =====
+const themeToggle = document.getElementById('theme-toggle');
+const root = document.documentElement;
+
+// Check for saved theme preference
+const savedTheme = localStorage.getItem('theme');
+const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+// Set initial theme
+if (savedTheme) {
+    root.setAttribute('data-theme', savedTheme);
+} else if (systemPrefersDark) {
+    root.setAttribute('data-theme', 'dark');
+} else {
+    root.setAttribute('data-theme', 'light');
+}
+
+// Toggle theme on button click if toggle exists
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = root.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        root.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+}
