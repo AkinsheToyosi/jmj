@@ -93,13 +93,19 @@
     <!-- Logo Left -->
     <div class="pill-logo">
       <a href="index.html">
-        <img src="your-logo2.jpg" alt="JMJ Trading Logo - Forex Signals Nigeria" class="logo-img">
+        <img src="your-logo2.png" alt="JMJ Trading Logo - Forex Signals Nigeria" class="logo-img">
       </a>
     </div>
 
-    <div class="theme-toggle" id="theme-toggle">
-    <i class="fas fa-sun"></i>
-    <i class="fas fa-moon"></i>
+ <!-- iOS Style Theme Toggle -->
+<div class="theme-switch-wrapper">
+    <!-- <span class="theme-label dark-label">🌙</span> -->
+    <div class="theme-switch" id="theme-switch">
+        <div class="theme-switch-track">
+            <div class="theme-switch-knob"></div>
+        </div>
+    </div>
+    <!-- <span class="theme-label light-label">☀️</span> -->
 </div>
     
     <!-- Navigation Middle -->
@@ -116,7 +122,7 @@
         <i class="fab fa-google-play"></i>
         <span>Download App</span>
       </a>
-      <a href="#download" class="pill-btn primary-btn">Get Started</a>
+      <!-- <a href="#download" class="pill-btn primary-btn">Get Started</a> -->
     </div>
     
     <!-- Hamburger (mobile) -->
@@ -200,6 +206,13 @@
 <section class="globe-section">
   <div class="globe-container" id="globeContainer"></div>
   
+<!-- Orbiting Lines Container -->
+<div class="globe-orbits">
+    <div class="orbit orbit-1"></div>
+    <div class="orbit orbit-2"></div>
+    <!-- <div class="orbit orbit-3"></div> -->
+</div>
+
   <div class="globe-content">
     <h2 class="globe-title">Connected to <span class="gold-text">Synthetic Indices Worldwide</span></h2>
     <p class="globe-subtitle">Professional market execution, disciplined strategy, and consistent opportunities across globally recognized synthetic index instruments. </p>
@@ -285,20 +298,39 @@
     
     <div class="pillars-header">
       <h2 class="pillars-title">Our <span class="gold-text">Products</span></h2>
-      <p class="pillars-subtitle">Discover the foundation of JMJ Trading - forex signals, account management, pool funding, and mentorship</p>
+      <p class="pillars-subtitle">Discover the foundation of JMJ Trading - pool funding, signals, classes, and portfolio management</p>
     </div>
     
     <div class="pillars-grid">
       
-      <!-- Account Management -->
+      <!-- Pool Funding -->
       <div class="pillar-card">
         <div class="pillar-icon-container">
-          <div class="pillar-icon account-icon">⚙️</div>
+          <div class="pillar-icon pool-icon">💰</div>
         </div>
-        <h3 class="pillar-title">ACCOUNT MANAGEMENT</h3>
-        <div class="pillar-details">
-          <p class="pillar-description">Got $3k+? Let us handle your capital under a structured, transparent profit-sharing system. Professional forex account management in Nigeria.</p>
+        <h3 class="pillar-title">POOL FUNDING</h3>
+        <div class="pillar-description-short">
+          <p>Pool Funding allows multiple investors to combine funds together to leverage larger trading opportunities and increase overall earning potential.</p>
         </div>
+        
+        <!-- Expandable Content (hidden until hover) -->
+        <div class="pillar-expandable">
+          <div class="expandable-section">
+            <h4>📖 How It Works</h4>
+            <p>Investors contribute to a shared trading pool managed by JMJ. Profits generated are distributed evenly based on the agreed structure of the funding pool.</p>
+          </div>
+          <div class="expandable-section">
+            <h4>✨ What You Gain</h4>
+            <ul>
+              <li>Access to larger trading opportunities</li>
+              <li>Increased scalability</li>
+              <li>Shared risk exposure</li>
+              <li>Passive income opportunities</li>
+              <li>Professional fund management</li>
+            </ul>
+          </div>
+        </div>
+        
         <div class="pillar-glow"></div>
       </div>
       
@@ -308,33 +340,90 @@
           <div class="pillar-icon signals-icon">📡</div>
         </div>
         <h3 class="pillar-title">SIGNALS</h3>
-        <div class="pillar-details">
-          <p class="pillar-description">Daily Synthetic indices signals with high accuracy, clean R:R, and strict risk management for volatility 75, boom 500, and crash 1000.</p>
+        <div class="pillar-description-short">
+          <p>Signals allows traders to copy JMJ's technical analysis and trading ideas directly onto their own trading accounts while keeping 100% of the profits they make.</p>
         </div>
+        
+        <!-- Expandable Content (hidden until hover) -->
+        <div class="pillar-expandable">
+          <div class="expandable-section">
+            <h4>📖 How It Works</h4>
+            <p>JMJ provides entry points, stop losses, take profits, and market direction based on technical analysis. Traders simply follow and execute the trades on their personal accounts.</p>
+          </div>
+          <div class="expandable-section">
+            <h4>✨ What You Gain</h4>
+            <ul>
+              <li>Access to professional analysis</li>
+              <li>Better trade opportunities</li>
+              <li>Improved market understanding</li>
+              <li>Full control of your capital</li>
+              <li>Keep all profits made from your trades</li>
+            </ul>
+          </div>
+        </div>
+        
         <div class="pillar-glow"></div>
       </div>
       
-      <!-- Mentorship -->
+      <!-- Classes -->
       <div class="pillar-card">
         <div class="pillar-icon-container">
           <div class="pillar-icon mentorship-icon">👨‍🏫</div>
         </div>
-        <h3 class="pillar-title">MENTORSHIP</h3>
-        <div class="pillar-details">
-          <p class="pillar-description">Get 1-on-1 access to a JMJ. Weekly live calls, strategy breakdowns, and personalized feedback tailored to your growth in forex trading.</p>
+        <h3 class="pillar-title">CLASSES</h3>
+        <div class="pillar-description-short">
+          <p>Classes teach individuals how to trade using JMJ's strategies, including liquidity, market structure, smart money concepts, risk management, price action, and multi-timeframe analysis.</p>
         </div>
+        
+        <!-- Expandable Content (hidden until hover) -->
+        <div class="pillar-expandable">
+          <div class="expandable-section">
+            <h4>📖 How It Works</h4>
+            <p>Students can learn either in a group class or through private mentorship for faster and more personalized learning.</p>
+          </div>
+          <div class="expandable-section">
+            <h4>✨ What You Gain</h4>
+            <ul>
+              <li>Deep trading knowledge</li>
+              <li>Real market experience</li>
+              <li>Personal trading confidence</li>
+              <li>Access to proven strategies</li>
+              <li>The ability to trade independently</li>
+            </ul>
+          </div>
+        </div>
+        
         <div class="pillar-glow"></div>
       </div>
       
-      <!-- Pool Funding -->
+      <!-- Portfolio Management -->
       <div class="pillar-card">
         <div class="pillar-icon-container">
-          <div class="pillar-icon pool-icon">💰</div>
+          <div class="pillar-icon account-icon">⚙️</div>
         </div>
-        <h3 class="pillar-title">POOL FUNDING</h3>
-        <div class="pillar-details">
-          <p class="pillar-description">Combine capital with other traders. Start from as little as $250 and grow with your community gradually through collective forex investments.</p>
+        <h3 class="pillar-title">PORTFOLIO MANAGEMENT</h3>
+        <div class="pillar-description-short">
+          <p>Portfolio Management allows JMJ to trade on your behalf using our trading experience, risk management, and market analysis strategies to maximize profits while minimizing unnecessary risks.</p>
         </div>
+        
+        <!-- Expandable Content (hidden until hover) -->
+        <div class="pillar-expandable">
+          <div class="expandable-section">
+            <h4>📖 How It Works</h4>
+            <p>You submit your trading account, and our team manages and executes trades professionally over a period of time, usually between 7–12 weeks.</p>
+          </div>
+          <div class="expandable-section">
+            <h4>✨ What You Gain</h4>
+            <ul>
+              <li>Passive profit opportunities</li>
+              <li>Professional trade management</li>
+              <li>Reduced emotional trading</li>
+              <li>Structured risk management</li>
+              <li>Consistent market monitoring</li>
+            </ul>
+          </div>
+        </div>
+        
         <div class="pillar-glow"></div>
       </div>
       
@@ -1036,7 +1125,7 @@
   <div class="download-container">
     
     <div class="download-mockup right">
-      <img src="your-phone-mockup.jpg" alt="JMJ Trading App - Get forex signals on your phone" class="mockup-image">
+      <img src="your-phone-mockup.PNG" alt="JMJ Trading App - Get forex signals on your phone" class="mockup-image">
       <div class="mockup-glow"></div>
     </div>
     
@@ -1046,20 +1135,20 @@
       
       <div class="download-features">
         <div class="feature-item">
-          <span class="feature-icon">📱</span>
-          <span>Real-time push notifications</span>
+          <!-- <span class="feature-icon">📱</span> -->
+          <li>Real-time push notifications</li>
         </div>
         <div class="feature-item">
-          <span class="feature-icon">📊</span>
-          <span>Live portfolio tracking</span>
+          <!-- <span class="feature-icon">📊</span> -->
+          <li>Live portfolio tracking</li>
         </div>
         <div class="feature-item">
-          <span class="feature-icon">⚡</span>
-          <span>Instant signal execution</span>
+          <!-- <span class="feature-icon">⚡</span> -->
+          <li>Instant signal execution</li>
         </div>
         <div class="feature-item">
-          <span class="feature-icon">🔔</span>
-          <span>Price alerts</span>
+          <!-- <span class="feature-icon">🔔</span> -->
+          <li>Price alerts</li>
         </div>
       </div>
       
@@ -1103,7 +1192,7 @@
     <div class="footer-grid">
       
       <div class="footer-col logo-col">
-        <img src="your-logo3.jpg" alt="JMJ Trading - Forex Signals Nigeria" class="footer-logo">
+        <img src="your-logo2.png" alt="JMJ Trading - Forex Signals Nigeria" class="footer-logo">
       </div>
       
       <div class="footer-col">
@@ -1139,13 +1228,14 @@
       
     </div>
     
-    <div class="compliance-card">
-      <img src="cac-logo.png" alt="CAC Registered - JMJ Trading Nigeria" class="compliance-logo">
-      <div class="compliance-text">
-        <span class="compliance-title">JMJ Trading Platform</span>
-        <span class="compliance-badge">Secure & Verified</span>
-      </div>
-    </div>
+<div class="compliance-card">
+  <img src="cac-logo.png" alt="CAC Registered - JMJ Trading Nigeria" class="compliance-logo">
+  <div class="compliance-text">
+    <span class="compliance-title">JMJ Trading Services Ltd</span>
+    <!-- <span class="compliance-badge">Secure & Verified</span> -->
+    <span class="compliance-rc">RC- 9518210</span>
+  </div>
+</div>
     
     <div class="footer-bottom">
       <p class="copyright">&copy; 2026 JMJ Trading. All rights reserved.</p>
