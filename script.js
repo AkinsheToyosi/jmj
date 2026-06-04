@@ -712,50 +712,75 @@ function setupGlobe() {
   if (!container) return;
   
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x060606);
+  // Make scene background transparent so CSS background shows through
+  scene.background = null;
   
   const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 15;
   
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // alpha: true for transparency
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setClearColor(0x000000, 0); // Transparent background
   container.appendChild(renderer.domElement);
   
-  const ambientLight = new THREE.AmbientLight(0x404040);
+  // Brighter lighting for vibrant colors
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambientLight);
   
-  const pointLight = new THREE.PointLight(0xd4af37, 1, 30);
-  pointLight.position.set(5, 5, 5);
-  scene.add(pointLight);
+  const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+  mainLight.position.set(5, 10, 7);
+  scene.add(mainLight);
   
-  const geometry = new THREE.SphereGeometry(4, 64, 64);
+  const fillLight = new THREE.PointLight(0xd4af37, 0.5);
+  fillLight.position.set(-3, 2, 4);
+  scene.add(fillLight);
+  
+  const backLight = new THREE.PointLight(0xffffff, 0.4);
+  backLight.position.set(0, 0, -8);
+  scene.add(backLight);
+  
+  const geometry = new THREE.SphereGeometry(4, 128, 128); // Higher resolution for better detail
   const textureLoader = new THREE.TextureLoader();
+  // Higher quality Earth texture
   const texture = textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
   
-  const material = new THREE.MeshPhongMaterial({
+  const material = new THREE.MeshStandardMaterial({
     map: texture,
-    shininess: 5,
-    emissive: new THREE.Color(0x111111)
+    roughness: 0.5,
+    metalness: 0.1,
+    emissive: new THREE.Color(0x111111),
+    emissiveIntensity: 0.1
   });
   
   const globe = new THREE.Mesh(geometry, material);
   scene.add(globe);
+  
+  // Optional: Add a subtle atmosphere glow
+  const glowGeometry = new THREE.SphereGeometry(4.1, 64, 64);
+  const glowMaterial = new THREE.MeshPhongMaterial({
+    color: 0x88aaff,
+    transparent: true,
+    opacity: 0.08
+  });
+  const atmosphere = new THREE.Mesh(glowGeometry, glowMaterial);
+  scene.add(atmosphere);
   
   const wireframeGeo = new THREE.SphereGeometry(4.05, 32, 32);
   const wireframeMat = new THREE.MeshBasicMaterial({
     color: 0xd4af37,
     wireframe: true,
     transparent: true,
-    opacity: 0.15
+    opacity: 0.12
   });
   const wireframe = new THREE.Mesh(wireframeGeo, wireframeMat);
   scene.add(wireframe);
   
   function animate() {
     requestAnimationFrame(animate);
-    globe.rotation.y += 0.0005;
-    wireframe.rotation.y += 0.0005;
+    globe.rotation.y += 0.0015; // Slightly faster rotation
+    wireframe.rotation.y += 0.0015;
+    atmosphere.rotation.y += 0.0015;
     renderer.render(scene, camera);
   }
   
@@ -1457,9 +1482,8 @@ function initTypewriterHero() {
 }
 
 
-
-// ===== THEME SWITCHING =====
-const themeToggle = document.getElementById('theme-toggle');
+// ===== IOS STYLE THEME TOGGLE =====
+const themeSwitch = document.getElementById('theme-switch');
 const root = document.documentElement;
 
 // Check for saved theme preference
@@ -1475,13 +1499,67 @@ if (savedTheme) {
     root.setAttribute('data-theme', 'light');
 }
 
-// Toggle theme on button click if toggle exists
-if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
+// Toggle theme on click
+if (themeSwitch) {
+    themeSwitch.addEventListener('click', () => {
         const currentTheme = root.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Add subtle click feedback
+        const knob = themeSwitch.querySelector('.theme-switch-knob');
+        knob.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            knob.style.transform = '';
+        }, 150);
         
         root.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
     });
 }
+
+// Mobile expandable cards
+function initExpandableCards() {
+    if (window.innerWidth <= 768) {
+        const cards = document.querySelectorAll('.pillar-card');
+        
+        cards.forEach(card => {
+            // Add tap hint if not exists
+            if (!card.querySelector('.tap-hint')) {
+                const hint = document.createElement('div');
+                hint.className = 'tap-hint';
+                hint.innerHTML = '👆 Tap to expand';
+                card.appendChild(hint);
+            }
+            
+            // Remove existing listener
+            card.removeEventListener('click', card._expandHandler);
+            
+            // Create new handler
+            card._expandHandler = (e) => {
+                e.stopPropagation();
+                // Close other cards
+                cards.forEach(other => {
+                    if (other !== card) {
+                        other.classList.remove('active');
+                    }
+                });
+                card.classList.toggle('active');
+            };
+            
+            card.addEventListener('click', card._expandHandler);
+        });
+        
+        // Close when tapping outside
+        document.removeEventListener('click', window._closeCards);
+        window._closeCards = () => {
+            cards.forEach(card => {
+                card.classList.remove('active');
+            });
+        };
+        document.addEventListener('click', window._closeCards);
+    }
+}
+
+// Run on load and resize
+initExpandableCards();
+window.addEventListener('resize', initExpandableCards);
