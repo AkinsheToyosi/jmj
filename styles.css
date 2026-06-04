@@ -32,7 +32,7 @@
 
 /* Light Mode */
 [data-theme="light"] {
-    --bg-primary: #f5f5f5;
+    --bg-primary: #ecdeded7;
     --bg-secondary: #ffffff;
     --bg-card: rgba(0, 0, 0, 0.02);
     --bg-footer: #e8e8e8;
@@ -397,62 +397,134 @@ body {
   }
 }
 
-/* ===== THEME TOGGLE BUTTON ===== */
-.theme-toggle {
-    cursor: pointer;
-    font-size: 1.3rem;
+/* ===== IOS STYLE THEME TOGGLE ===== */
+.theme-switch-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
-    background: var(--bg-card);
-    padding: 8px 12px;
-    border-radius: 30px;
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    gap: 12px;
     margin-left: auto;
     margin-right: 15px;
 }
 
-.theme-toggle i {
-    transition: all 0.3s ease;
+.theme-label {
+    font-size: 16px;
+    transition: opacity 0.3s ease;
+}
+
+.dark-label {
     color: var(--gold);
 }
 
-.theme-toggle .fa-sun {
-    display: inline-block;
+.light-label {
+    color: var(--text-secondary);
+    opacity: 0.5;
 }
 
-.theme-toggle .fa-moon {
-    display: inline-block;
+/* Active label styling */
+[data-theme="dark"] .dark-label {
+    opacity: 1;
 }
 
-[data-theme="light"] .theme-toggle .fa-moon {
-    display: none;
+[data-theme="dark"] .light-label {
+    opacity: 0.5;
 }
 
-[data-theme="light"] .theme-toggle .fa-sun {
-    display: inline-block;
+[data-theme="light"] .dark-label {
+    opacity: 0.5;
 }
 
-[data-theme="dark"] .theme-toggle .fa-sun {
-    display: none;
+[data-theme="light"] .light-label {
+    opacity: 1;
+    color: var(--gold);
 }
 
-[data-theme="dark"] .theme-toggle .fa-moon {
-    display: inline-block;
+/* Switch Track */
+.theme-switch {
+    cursor: pointer;
 }
 
-.theme-toggle:hover {
-    transform: scale(1.05);
+.theme-switch-track {
+    width: 52px;
+    height: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Knob */
+.theme-switch-knob {
+    width: 22px;
+    height: 22px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode (default) - knob left */
+[data-theme="dark"] .theme-switch-knob {
+    transform: translateX(0);
+}
+
+[data-theme="dark"] .theme-switch-track {
+    background: var(--bg-card);
     border-color: var(--gold);
 }
 
+/* Light mode - knob right */
+[data-theme="light"] .theme-switch-knob {
+    transform: translateX(24px);
+}
+
+[data-theme="light"] .theme-switch-track {
+    background: var(--bg-card);
+    border-color: var(--gold);
+}
+
+/* Hover effect */
+.theme-switch:hover .theme-switch-knob {
+    transform: scale(1.05);
+}
+
+[data-theme="light"] .theme-switch:hover .theme-switch-knob {
+    transform: translateX(24px) scale(1.05);
+}
+
+/* Mobile adjustment */
 @media (max-width: 768px) {
-    .theme-toggle {
+    .theme-switch-wrapper {
         margin-left: auto;
         margin-right: 10px;
-        padding: 6px 10px;
-        font-size: 1rem;
+        gap: 8px;
+    }
+    
+    .theme-label {
+        font-size: 14px;
+    }
+    
+    .theme-switch-track {
+        width: 46px;
+        height: 24px;
+    }
+    
+    .theme-switch-knob {
+        width: 18px;
+        height: 18px;
+        top: 2px;
+        left: 3px;
+    }
+    
+    [data-theme="light"] .theme-switch-knob {
+        transform: translateX(21px);
+    }
+    
+    [data-theme="light"] .theme-switch:hover .theme-switch-knob {
+        transform: translateX(21px) scale(1.05);
     }
 }
 
@@ -594,7 +666,7 @@ body {
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 10px;
-  color: var(--text-primary);
+   color: #ffffff; 
   text-shadow: 0 0 20px var(--gold-glow);
   opacity: 0;
   width: 0;
@@ -1141,8 +1213,117 @@ body {
   position: relative;
   height: 100vh;
   width: 100%;
-  background: var(--bg-primary);
+  background: radial-gradient(circle at center, #0a0a2a, #000000);
   overflow: hidden;
+}
+
+[data-theme="light"] .globe-section {
+  background: radial-gradient(circle at center, #c8daf5, #a8bce0); /* Bright sky for light mode */
+}
+
+/* ===== REALISTIC ORBITING LINES AROUND GLOBE ===== */
+.globe-orbits {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Base orbit style */
+.orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotateX(65deg);
+    animation: rotateOrbit linear infinite;
+}
+
+/* Orbit 1 - Outer thick ring with glow */
+.orbit-1 {
+    width: 85%;
+    height: 85%;
+    border: 3px solid rgba(212, 175, 55, 0.6);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(212, 175, 55, 0.2);
+    animation-duration: 50s;
+}
+
+/* Orbit 2 - Middle dashed-thick ring */
+.orbit-2 {
+    width: 65%;
+    height: 65%;
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    border-style: solid;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+    animation-duration: 18s;
+    animation-direction: reverse;
+}
+
+/* Orbit 3 - Inner bright ring */
+.orbit-3 {
+    width: 45%;
+    height: 45%;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    animation-duration: 50s;
+}
+
+/* Orbit 3 glow effect */
+.orbit-3::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.2), transparent 70%);
+    pointer-events: none;
+}
+
+/* Rotation Animation with 3D tilt */
+@keyframes rotateOrbit {
+    0% {
+        transform: translate(-50%, -50%) rotateX(65deg) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotateX(65deg) rotate(360deg);
+    }
+}
+
+/* Light mode adjustments */
+[data-theme="light"] .orbit-1 {
+    border-color: rgba(212, 175, 55, 0.7);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+[data-theme="light"] .orbit-2 {
+    border-color: rgba(212, 175, 55, 0.6);
+}
+
+[data-theme="light"] .orbit-3 {
+    border-color: rgba(100, 100, 100, 0.5);
+}
+
+/* Mobile: smaller but still visible */
+@media (max-width: 768px) {
+    .orbit-1 { width: 95%; height: 95%; border-width: 2px; }
+    .orbit-2 { width: 75%; height: 75%; border-width: 1.5px; }
+    .orbit-3 { width: 55%; height: 55%; border-width: 1.5px; }
+}
+
+/* Subtle pulse animation for outer ring */
+@keyframes ringPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+.orbit-1 {
+    animation: rotateOrbit 25s linear infinite, ringPulse 4s ease-in-out infinite;
 }
 
 .globe-container {
@@ -2720,6 +2901,22 @@ body {
   font-weight: 500;
 }
 
+.compliance-rc {
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* .compliance-rc {
+  display: block;
+  font-size: 11px;
+  color: var(--gold);
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+} */
+
 /* Footer Bottom */
 .footer-bottom {
   display: flex;
@@ -2994,8 +3191,7 @@ body {
   padding-left: 20px;
   font-weight: 500;
 }
-
-/* ===== PILLARS SECTION - FRESH BUILD ===== */
+/* ===== PILLARS SECTION - EXPANDABLE CARDS ===== */
 .pillars-section {
   padding: 60px 20px 80px;
   background: var(--bg-primary);
@@ -3028,39 +3224,31 @@ body {
 .pillars-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 25px;
+  align-items: start;
 }
 
-/* Pillar Card */
+/* Pillar Card - Expandable */
 .pillar-card {
   background: var(--bg-card);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 30px 20px;
-  text-align: center;
+  padding: 25px 20px;
+  text-align: left; /* Changed from center for better readability */
   position: relative;
-  overflow: hidden;
-  transition: all 0.9s ease;
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-/* Entrance animations - staggered */
-.pillar-card:nth-child(1) { transition-delay: 0.1s; }
-.pillar-card:nth-child(2) { transition-delay: 0.2s; }
-.pillar-card:nth-child(3) { transition-delay: 0.3s; }
-.pillar-card:nth-child(4) { transition-delay: 0.4s; }
-
-.pillar-card.visible {
-  opacity: 1;
-  transform: translateY(0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  height: auto;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Hover effect */
 .pillar-card:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-5px);
   border-color: var(--gold);
   box-shadow: 0 20px 30px var(--gold-glow);
   background: var(--bg-secondary);
@@ -3068,6 +3256,7 @@ body {
 
 /* Icon Container */
 .pillar-icon-container {
+  text-align: center;
   margin-bottom: 15px;
 }
 
@@ -3077,55 +3266,18 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Icon animations on hover */
 .pillar-card:hover .pillar-icon {
   transform: scale(1.1);
   filter: drop-shadow(0 0 10px var(--gold));
 }
 
-/* Individual icon rotations (subtle) */
-.pillar-card:hover .account-icon {
-  animation: rotate 4s linear infinite;
-}
-
-.pillar-card:hover .signals-icon {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.pillar-card:hover .mentorship-icon {
-  animation: float 3s ease-in-out infinite;
-}
-
-.pillar-card:hover .pool-icon {
-  animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
 /* Title */
 .pillar-title {
   color: var(--gold);
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-align: center;
   letter-spacing: 0.5px;
   transition: color 0.3s ease;
 }
@@ -3134,21 +3286,86 @@ body {
   color: #ffd700;
 }
 
-/* Description */
-.pillar-details {
-  margin-top: 10px;
-}
-
-.pillar-description {
+/* Short Description */
+.pillar-description-short p {
   color: var(--text-secondary);
   font-size: 13px;
   line-height: 1.6;
-  margin: 0;
+  margin: 0 0 10px 0;
   transition: color 0.3s ease;
 }
 
-.pillar-card:hover .pillar-description {
+.pillar-card:hover .pillar-description-short p {
   color: var(--text-primary);
+}
+
+/* Expandable Content - Hidden by default */
+.pillar-expandable {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0;
+}
+
+/* Show expandable content on hover */
+.pillar-card:hover .pillar-expandable {
+  max-height: 400px; /* Enough for all content */
+  margin-top: 15px;
+}
+
+/* Expandable Sections */
+.expandable-section {
+  margin-bottom: 15px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+.expandable-section:first-of-type {
+  border-top: 1px solid var(--border-color);
+}
+
+.expandable-section h4 {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.expandable-section p {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.expandable-section ul {
+  margin: 5px 0 0 0;
+  padding-left: 18px;
+}
+
+.expandable-section li {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+/* Arrow indicator */
+.pillar-card::after {
+  content: '▼';
+  position: absolute;
+  bottom: 12px;
+  right: 15px;
+  font-size: 10px;
+  color: var(--gold);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.pillar-card:hover::after {
+  opacity: 1;
+  transform: translateY(3px);
 }
 
 /* Glow effect */
@@ -3172,55 +3389,53 @@ body {
   opacity: 1;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .about-content {
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .about-image-wrapper,
-  .about-text-box {
-    width: 100%;
-    max-width: 500px;
-  }
-  
+/* Mobile: Tap to expand instead of hover */
+@media (max-width: 768px) {
   .pillars-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
   }
   
-  .pillars-title {
-    font-size: 36px;
+  .pillar-expandable {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  
+  /* Active class for mobile tap */
+  .pillar-card.active .pillar-expandable {
+    max-height: 400px;
+    margin-top: 15px;
+  }
+  
+  .pillar-card::after {
+    display: none;
+  }
+  
+  .pillar-card .tap-hint {
+    display: block;
+    font-size: 10px;
+    color: var(--gold);
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.6;
   }
 }
 
 @media (max-width: 600px) {
-  .about-headline {
-    font-size: 28px;
-  }
-  
-  .about-text-box {
-    padding: 25px;
-  }
-  
-  .about-paragraph {
-    font-size: 14px;
-  }
-  
   .pillars-grid {
     grid-template-columns: 1fr;
   }
   
   .pillar-card {
-    max-width: 350px;
-    margin: 0 auto;
+    max-width: 100%;
   }
   
   .pillars-title {
     font-size: 28px;
   }
 }
- 
+
 /* ===== GOLD STATS SECTION WITH FLOATING PARTICLES ===== */
 .stats-section {
   padding: 50px 20px;
@@ -3538,4 +3753,28 @@ body {
   font-size: 20px;
   margin: 25px 0 10px;
   font-weight: 500;
+}
+
+/* ===== LIGHT MODE GLOBE SECTION FIXES ===== */
+[data-theme="light"] .globe-section {
+    background: linear-gradient(135deg, #e8f0ff, #d4e0f0); /* Sky blue gradient */
+}
+
+[data-theme="light"] .globe-particles {
+    background: radial-gradient(circle at center, transparent 0%, rgba(216, 226, 240, 0.8) 100%);
+}
+
+[data-theme="light"] .globe-title,
+[data-theme="light"] .globe-subtitle {
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Make orbital rings more visible in light mode */
+[data-theme="light"] .orbit-1 {
+    border-color: rgba(212, 175, 55, 0.8);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+[data-theme="light"] .orbit-2 {
+    border-color: rgba(212, 175, 55, 0.7);
 }
