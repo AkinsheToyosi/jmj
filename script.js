@@ -1482,8 +1482,10 @@ function initTypewriterHero() {
 }
 
 
-// ===== IOS STYLE THEME TOGGLE =====
-const themeSwitch = document.getElementById('theme-switch');
+// ===== PILL THEME TOGGLE =====
+const themePill = document.getElementById('theme-pill');
+const sunIcon = document.getElementById('sun-icon');
+const moonIcon = document.getElementById('moon-icon');
 const root = document.documentElement;
 
 // Check for saved theme preference
@@ -1499,23 +1501,32 @@ if (savedTheme) {
     root.setAttribute('data-theme', 'light');
 }
 
-// Toggle theme on click
-if (themeSwitch) {
-    themeSwitch.addEventListener('click', () => {
-        const currentTheme = root.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        // Add subtle click feedback
-        const knob = themeSwitch.querySelector('.theme-switch-knob');
-        knob.style.transform = 'scale(0.9)';
-        setTimeout(() => {
-            knob.style.transform = '';
-        }, 150);
-        
-        root.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
+// Update icon states based on current theme
+function updateIcons(theme) {
+    if (theme === 'dark') {
+        moonIcon.classList.add('active');
+        sunIcon.classList.remove('active');
+    } else {
+        sunIcon.classList.add('active');
+        moonIcon.classList.remove('active');
+    }
 }
+
+// Set initial icon states
+updateIcons(root.getAttribute('data-theme'));
+
+// Toggle theme on pill click
+themePill.addEventListener('click', () => {
+    const currentTheme = root.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    // Apply theme
+    root.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Update icons
+    updateIcons(newTheme);
+});
 
 // Mobile expandable cards
 function initExpandableCards() {
