@@ -224,7 +224,7 @@
       </div>
       <div class="stat-pill">
         <span class="stat-dot live"></span>
-        <span class="stat-text">International Reach</span>
+        <span class="stat-text">Trusted by over 25,000+ individuals</span>
       </div>
       <div class="stat-pill">
         <span class="stat-dot live"></span>
@@ -425,6 +425,111 @@
         </div>
         
         <div class="pillar-glow"></div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR SECTION - GLASSMORPHISM THREE PANEL -->
+<section class="calculator-section">
+  <div class="calculator-container">
+    
+    <!-- Header -->
+    <div class="calculator-header">
+      <h2 class="calculator-title">Let's calculate together ✨</h2>
+      <p class="calculator-subtitle">See what your investment could grow to with JMJ</p>
+    </div>
+    
+    <!-- Tab Switcher -->
+    <div class="calculator-tabs">
+      <button class="calc-tab active" data-service="management">📈 Account Management</button>
+      <button class="calc-tab" data-service="pool">🤝 Pool Funding</button>
+    </div>
+    
+    <!-- Three Panel Layout -->
+    <div class="calculator-panels">
+      
+      <!-- LEFT PANEL: INPUTS -->
+      <div class="calc-panel input-panel">
+        <h3 class="panel-title">Configure your investment</h3>
+        
+        <div class="input-group">
+          <label>Frequency</label>
+          <select id="frequency" class="calc-input">
+            <option value="one-time">One-time</option>
+            <option value="monthly">Monthly</option>
+            <option value="weekly">Weekly</option>
+          </select>
+        </div>
+        
+        <div class="input-group">
+          <label>Duration</label>
+          <select id="duration" class="calc-input">
+            <option value="1">1 month</option>
+            <option value="3" selected>3 months</option>
+            <option value="6">6 months</option>
+          </select>
+        </div>
+        
+        <div class="input-row">
+          <div class="input-group amount-group">
+            <label>Amount</label>
+            <input type="number" id="amount" class="calc-input" value="3000" step="100">
+          </div>
+          <div class="input-group currency-group">
+            <label>Currency</label>
+            <select id="currency" class="calc-input">
+              <option value="USD" selected>USD</option>
+              <option value="NGN">NGN</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="preset-buttons" id="preset-buttons">
+          <button class="preset-btn" data-amount="2000">$2K</button>
+          <button class="preset-btn" data-amount="3000">$3K</button>
+          <button class="preset-btn" data-amount="5000">$5K</button>
+        </div>
+      </div>
+      
+      <!-- CENTER PANEL: RESULTS -->
+      <div class="calc-panel results-panel">
+        <div class="results-two-column">
+          <div class="result-col">
+            <span class="result-label">TOTAL RETURN</span>
+            <span class="result-value" id="total-return">$3,750</span>
+          </div>
+          <div class="result-col">
+            <span class="result-label">PROFIT EARNED</span>
+            <span class="result-value profit-value" id="profit-earned">$750</span>
+          </div>
+        </div>
+        
+        <div class="profit-split">
+          <span class="split-label">You</span>
+          <span class="split-bar"></span>
+          <span class="split-amount" id="client-share">$412.50</span>
+          <span class="split-divider">|</span>
+          <span class="split-amount" id="jmj-share">$337.50</span>
+          <span class="split-label">JMJ</span>
+        </div>
+
+        <p class="card-footnote">📊 Estimates based on historical performance</p>
+
+      </div>
+      
+      <!-- RIGHT PANEL: COMPARISON -->
+      <div class="calc-panel comparison-panel">
+        <h3 class="panel-title">VS Standard Savings Account</h3>
+        <div class="comparison-value" id="comparison-value">+$250</div>
+        <div class="comparison-subtext">
+          <span id="comparison-percent">33%</span> higher than saving<br>
+          Average savings return: 10%
+        </div>
+
+ <p class="card-footnote">🏦 Average Nigerian savings rate ~10%</p>
+
       </div>
       
     </div>
