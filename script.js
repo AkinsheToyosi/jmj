@@ -1563,3 +1563,147 @@ function initExpandableCards() {
 // Run on load and resize
 initExpandableCards();
 window.addEventListener('resize', initExpandableCards);
+
+// ===== GLASSMORPHISM CALCULATOR =====
+// Service configurations
+const serviceConfig = {
+  management: {
+    clientShare: 0.55,
+    jmjShare: 0.45,
+    expectedReturn: 0.25, // 25%
+    presets: [2000, 3000, 5000],
+    presetLabels: ['$2K', '$3K', '$5K']
+  },
+  pool: {
+    clientShare: 0.60,
+    jmjShare: 0.40,
+    expectedReturn: 0.18, // 18%
+    presets: [250, 500, 1000],
+    presetLabels: ['$250', '$500', '$1K']
+  }
+};
+
+let currentService = 'management';
+
+// DOM Elements
+const tabBtns = document.querySelectorAll('.calc-tab');
+const amountInput = document.getElementById('amount');
+const frequencySelect = document.getElementById('frequency');
+const durationSelect = document.getElementById('duration');
+const currencySelect = document.getElementById('currency');
+const presetContainer = document.getElementById('preset-buttons');
+const totalReturnSpan = document.getElementById('total-return');
+const profitEarnedSpan = document.getElementById('profit-earned');
+const clientShareSpan = document.getElementById('client-share');
+const jmjShareSpan = document.getElementById('jmj-share');
+const comparisonValueSpan = document.getElementById('comparison-value');
+const comparisonPercentSpan = document.getElementById('comparison-percent');
+
+// Update preset buttons based on active service
+function updatePresetButtons() {
+  const config = serviceConfig[currentService];
+  presetContainer.innerHTML = '';
+  config.presets.forEach((amount, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'preset-btn';
+    btn.textContent = config.presetLabels[index];
+    btn.dataset.amount = amount;
+    btn.addEventListener('click', () => {
+      amountInput.value = amount;
+      calculate();
+    });
+    presetContainer.appendChild(btn);
+  });
+}
+
+// Main calculation function
+function calculate() {
+  const amount = parseFloat(amountInput.value) || 0;
+  const frequency = frequencySelect.value;
+  const duration = parseInt(durationSelect.value);
+  const config = serviceConfig[currentService];
+  const savingsRate = 0.10; // 10% benchmark
+  
+  // Calculate effective amount based on frequency
+  let effectiveAmount = amount;
+  if (frequency === 'monthly') {
+    effectiveAmount = amount * duration;
+  } else if (frequency === 'weekly') {
+    effectiveAmount = amount * 4 * duration;
+  }
+  
+  // Calculate profit
+  const profit = effectiveAmount * config.expectedReturn;
+  const clientProfit = profit * config.clientShare;
+  const jmjProfit = profit * config.jmjShare;
+  const totalReturn = effectiveAmount + profit;
+  
+  // Calculate savings comparison
+  const savingsProfit = effectiveAmount * savingsRate;
+  const comparisonProfit = profit - savingsProfit;
+  const comparisonPercent = savingsProfit > 0 ? ((profit / savingsProfit) - 1) * 100 : profit * 100;
+  
+  // Get currency symbol
+  const currency = currencySelect.value;
+  const symbol = currency === 'USD' ? '$' : '₦';
+  
+  // Format numbers
+  const formatNumber = (num) => {
+    return symbol + num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
+  
+  const formatPercent = (num) => {
+    return num.toFixed(0);
+  };
+  
+  // Update UI
+  totalReturnSpan.textContent = formatNumber(totalReturn);
+  profitEarnedSpan.textContent = formatNumber(profit);
+  clientShareSpan.textContent = formatNumber(clientProfit);
+  jmjShareSpan.textContent = formatNumber(jmjProfit);
+  
+  const comparisonSymbol = comparisonProfit >= 0 ? '+' : '';
+  comparisonValueSpan.textContent = `${comparisonSymbol}${formatNumber(Math.abs(comparisonProfit))}`;
+  comparisonValueSpan.style.color = comparisonProfit >= 0 ? '#4caf50' : '#f44336';
+  comparisonPercentSpan.textContent = `${comparisonPercent >= 0 ? '+' : ''}${formatPercent(comparisonPercent)}%`;
+}
+
+// Switch service tab
+function switchService(service) {
+  currentService = service;
+  
+  // Update tab active states
+  tabBtns.forEach(btn => {
+    if (btn.dataset.service === service) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  
+  // Update preset buttons
+  updatePresetButtons();
+  
+  // Reset amount to first preset
+  const config = serviceConfig[service];
+  amountInput.value = config.presets[0];
+  
+  // Recalculate
+  calculate();
+}
+
+// Event listeners
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchService(btn.dataset.service);
+  });
+});
+
+amountInput.addEventListener('input', calculate);
+frequencySelect.addEventListener('change', calculate);
+durationSelect.addEventListener('change', calculate);
+currencySelect.addEventListener('change', calculate);
+
+// Initialize
+updatePresetButtons();
+calculate();
