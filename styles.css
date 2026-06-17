@@ -4077,3 +4077,53 @@ select.calc-input {
   padding-top: 52px;
   border-top: 1px solid var(--border-color);
 }
+
+/* ===== ABOUT SECTION - MOBILE FIX ===== */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column !important;
+    gap: 25px !important;
+    align-items: center !important;
+  }
+  
+  .about-image-wrapper {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: 300px !important;
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+  }
+  
+  .about-image-wrapper.visible {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+  }
+  
+  .about-image {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 300px !important;
+    display: block !important;
+  }
+  
+  .about-text-box {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    padding: 20px !important;
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+  }
+  
+  .about-text-box.visible {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+  }
+  
+  .about-headline {
+    font-size: 28px !important;
+  }
+  
+  .about-paragraph {
+    font-size: 14px !important;
+  }
+}
