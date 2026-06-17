@@ -97,15 +97,21 @@
       </a>
     </div>
 
- <!-- iOS Style Theme Toggle -->
+ <!-- iOS Style Theme Toggle
 <div class="theme-switch-wrapper">
-    <!-- <span class="theme-label dark-label">🌙</span> -->
     <div class="theme-switch" id="theme-switch">
         <div class="theme-switch-track">
             <div class="theme-switch-knob"></div>
         </div>
     </div>
-    <!-- <span class="theme-label light-label">☀️</span> -->
+</div> -->
+
+
+    <!-- Pill Theme Toggle -->
+<div class="theme-pill" id="theme-pill">
+    <span class="pill-icon sun-icon" id="sun-icon">☀️</span>
+    <span class="pill-divider"></span>
+    <span class="pill-icon moon-icon" id="moon-icon">🌙</span>
 </div>
     
     <!-- Navigation Middle -->
@@ -437,7 +443,7 @@
     
     <!-- Header -->
     <div class="calculator-header">
-      <h2 class="calculator-title">Let's calculate together ✨</h2>
+      <h2 class="calculator-title">Let's calculate together </h2>
       <p class="calculator-subtitle">See what your investment could grow to with JMJ</p>
     </div>
     
@@ -1259,22 +1265,22 @@
       
       <div class="button-group">
         
-        <!-- App Store Button (NEW) -->
-        <a href="https://apps.apple.com/your-app-id" class="action-btn app-store-btn" target="_blank">
-          <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download on the App Store" class="app-store-logo">
-        </a>
-        
-        <!-- Google Play Button (existing) -->
-        <a href="#" class="action-btn google-btn" target="_blank">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get JMJ Trading on Google Play" class="google-play-logo">
-        </a>
-        
-        <!-- Web Register Button (existing) 
-        <a href="#" class="action-btn web-btn">
-          <i class="fas fa-globe"></i>
-          <span>Register on Web</span>
-        </a>
-        -->
+         <!-- Google Play (Active) -->
+  <a href="#" class="action-btn google-btn" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get JMJ Trading on Google Play" class="google-play-logo">
+  </a>
+  
+  <!-- Web App / Mini App (Active) -->
+  <a href="https://www.jmjapp.finance/login" class="action-btn web-btn">
+    <i class="fas fa-globe"></i>
+    <span>Web App</span>
+  </a>
+  
+  <!-- App Store (Inactive - Coming Soon) -->
+  <span class="action-btn app-store-inactive">
+    <i class="fab fa-apple"></i>
+    <span>App Store <span class="coming-soon-badge">Coming Soon</span></span>
+  </span>
         
         <!-- Telegram Button (existing) -->
         <a href="https://t.me/Iamjmj" class="action-btn telegram-btn">
