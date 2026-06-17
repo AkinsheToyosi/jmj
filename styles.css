@@ -2729,6 +2729,114 @@ body {
   }
 }
 
+/* ===== APP STORE INACTIVE (COMING SOON) ===== */
+.app-store-inactive {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.app-store-inactive i {
+    font-size: 24px;
+    color: var(--text-muted);
+}
+
+.app-store-inactive span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.coming-soon-badge {
+    font-size: 10px;
+    background: var(--gold);
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 4px;
+}
+
+/* Hover effect (even though it's inactive) */
+.app-store-inactive:hover {
+    opacity: 0.6;
+    border-color: var(--gold);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .app-store-inactive {
+        width: 100%;
+        justify-content: center;
+        padding: 12px;
+    }
+    
+    .coming-soon-badge {
+        font-size: 9px;
+        padding: 2px 6px;
+    }
+}
+
+/* Make sure your existing .action-btn styles don't conflict */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.google-btn {
+    background: transparent;
+    padding: 0;
+    max-width: 160px;
+}
+
+.google-btn:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 15px var(--gold-glow));
+}
+
+.google-play-logo {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.web-btn {
+    background: var(--pill-hover);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+}
+
+.web-btn i {
+    font-size: 16px;
+}
+
+.web-btn:hover {
+    background: var(--gold);
+    color: #000;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--gold-glow);
+}
+
 @media (max-width: 600px) {
   .download-title {
     font-size: 32px;
@@ -4078,6 +4186,8 @@ select.calc-input {
   border-top: 1px solid var(--border-color);
 }
 
+
+
 /* ===== ABOUT SECTION - MOBILE FIX ===== */
 @media (max-width: 768px) {
   .about-content {
@@ -4126,4 +4236,143 @@ select.calc-input {
   .about-paragraph {
     font-size: 14px !important;
   }
+}
+
+
+
+/* ===== PILL THEME TOGGLE ===== */
+.theme-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    margin-left: auto;
+    margin-right: 15px;
+    min-width: 70px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.theme-pill:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 15px var(--gold-glow);
+    transform: scale(1.02);
+}
+
+/* Pill Icons */
+.pill-icon {
+    font-size: 18px;
+    transition: all 0.3s ease;
+    line-height: 1;
+    padding: 4px 2px;
+    opacity: 0.4;
+    filter: grayscale(1);
+    transform: scale(0.9);
+}
+
+/* Active state - Sun (Light mode) */
+.pill-icon.sun-icon.active {
+    opacity: 1;
+    filter: grayscale(0) drop-shadow(0 0 6px var(--gold));
+    transform: scale(1.1);
+    color: #ffd700;
+}
+
+/* Active state - Moon (Dark mode) */
+.pill-icon.moon-icon.active {
+    opacity: 1;
+    filter: grayscale(0) drop-shadow(0 0 6px var(--gold));
+    transform: scale(1.1);
+    color: #b0c4de;
+}
+
+/* Inactive state */
+.pill-icon:not(.active) {
+    opacity: 0.4;
+    filter: grayscale(1);
+    transform: scale(0.9);
+}
+
+/* Divider between icons */
+.pill-divider {
+    width: 1px;
+    height: 18px;
+    background: var(--border-color);
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.theme-pill:hover .pill-divider {
+    opacity: 1;
+    background: var(--gold);
+}
+
+/* Dark mode default states */
+[data-theme="dark"] .moon-icon {
+    opacity: 1 !important;
+    filter: grayscale(0) drop-shadow(0 0 6px var(--gold)) !important;
+    transform: scale(1.1) !important;
+    color: #b0c4de !important;
+}
+
+[data-theme="dark"] .sun-icon {
+    opacity: 0.4 !important;
+    filter: grayscale(1) !important;
+    transform: scale(0.9) !important;
+}
+
+/* Light mode default states */
+[data-theme="light"] .sun-icon {
+    opacity: 1 !important;
+    filter: grayscale(0) drop-shadow(0 0 6px var(--gold)) !important;
+    transform: scale(1.1) !important;
+    color: #ffd700 !important;
+}
+
+[data-theme="light"] .moon-icon {
+    opacity: 0.4 !important;
+    filter: grayscale(1) !important;
+    transform: scale(0.9) !important;
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px) {
+    .theme-pill {
+        margin-left: auto;
+        margin-right: 10px;
+        padding: 3px 8px;
+        min-width: 60px;
+    }
+    
+    .pill-icon {
+        font-size: 16px;
+        padding: 3px 2px;
+    }
+    
+    .pill-divider {
+        height: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-pill {
+        padding: 2px 6px;
+        min-width: 50px;
+    }
+    
+    .pill-icon {
+        font-size: 14px;
+        padding: 2px 1px;
+    }
+    
+    .pill-divider {
+        height: 14px;
+    }
 }
