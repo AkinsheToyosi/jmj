@@ -1581,14 +1581,14 @@ const serviceConfig = {
   management: {
     clientShare: 0.55,
     jmjShare: 0.45,
-    expectedReturn: 0.25, // 25%
+    expectedReturn: 1.5, // 150%
     presets: [2000, 3000, 5000],
     presetLabels: ['$2K', '$3K', '$5K']
   },
   pool: {
     clientShare: 0.60,
     jmjShare: 0.40,
-    expectedReturn: 0.18, // 18%
+    expectedReturn: 1.75, // 175%
     presets: [250, 500, 1000],
     presetLabels: ['$250', '$500', '$1K']
   }
@@ -1673,10 +1673,21 @@ function calculate() {
   clientShareSpan.textContent = formatNumber(clientProfit);
   jmjShareSpan.textContent = formatNumber(jmjProfit);
   
-  const comparisonSymbol = comparisonProfit >= 0 ? '+' : '';
-  comparisonValueSpan.textContent = `${comparisonSymbol}${formatNumber(Math.abs(comparisonProfit))}`;
-  comparisonValueSpan.style.color = comparisonProfit >= 0 ? '#4caf50' : '#f44336';
-  comparisonPercentSpan.textContent = `${comparisonPercent >= 0 ? '+' : ''}${formatPercent(comparisonPercent)}%`;
+  // Update Comparison Panel
+  const savingsReturnSpan = document.getElementById('savings-return');
+  const comparisonPercentSpan = document.getElementById('comparison-percent');
+  
+  if (savingsReturnSpan) {
+    savingsReturnSpan.textContent = formatNumber(savingsProfit);
+  }
+  
+  if (comparisonPercentSpan) {
+    const percentHigher = comparisonPercent >= 0 
+      ? `${formatPercent(comparisonPercent)}% higher` 
+      : `${formatPercent(Math.abs(comparisonPercent))}% lower`;
+    comparisonPercentSpan.textContent = percentHigher;
+    comparisonPercentSpan.style.color = comparisonPercent >= 0 ? '#4caf50' : '#f44336';
+  }
 }
 
 // Switch service tab
