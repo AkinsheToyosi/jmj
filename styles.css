@@ -4122,13 +4122,20 @@ select.calc-input {
   color: var(--border-color);
 }
 
-/* Comparison Panel */
-.comparison-value {
+/* Comparison Panel - Updated */
+.comparison-savings-amount {
   font-size: 36px;
   font-weight: 800;
+  color: var(--gold);  text-align: center;
+  margin: 10px 0 5px 0;
+}
+
+.comparison-percent {
+  font-size: 20px;
+  font-weight: 700;
   color: #4caf50;
-  margin: 15px 0;
   text-align: center;
+  margin-bottom: 15px;
 }
 
 .comparison-subtext {
@@ -4138,6 +4145,16 @@ select.calc-input {
   line-height: 1.5;
 }
 
+/* Responsive */
+@media (max-width: 700px) {
+  .comparison-savings-amount {
+    font-size: 28px;
+  }
+  
+  .comparison-percent {
+    font-size: 18px;
+  }
+}
 /* Responsive */
 @media (max-width: 1000px) {
   .calculator-panels {
