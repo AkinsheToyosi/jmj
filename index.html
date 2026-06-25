@@ -279,17 +279,17 @@
     <div class="stats-grid">
       
       <div class="stat-item">
-        <div class="stat-number" id="stat1" data-target="220">0</div>
+        <div class="stat-number" id="stat1" data-target="830">0</div>
         <div class="stat-label">Portfolios Managed</div>
       </div>
       
       <div class="stat-item">
-        <div class="stat-number" id="stat2" data-target="485">0</div>
+        <div class="stat-number" id="stat2" data-target="2000">0</div>
         <div class="stat-label">Mentees</div>
       </div>
       
       <div class="stat-item">
-        <div class="stat-number" id="stat3" data-target="3.2">0</div>
+        <div class="stat-number" id="stat3" data-target="7.3">0</div>
         <div class="stat-label">Signals Wins</div>
       </div>
       
@@ -449,8 +449,8 @@
     
     <!-- Tab Switcher -->
     <div class="calculator-tabs">
-      <button class="calc-tab active" data-service="management">📈 Account Management</button>
-      <button class="calc-tab" data-service="pool">🤝 Pool Funding</button>
+      <button class="calc-tab active" data-service="management">Account Management</button>
+      <button class="calc-tab" data-service="pool"> Pool Funding</button>
     </div>
     
     <!-- Three Panel Layout -->
@@ -464,17 +464,17 @@
           <label>Frequency</label>
           <select id="frequency" class="calc-input">
             <option value="one-time">One-time</option>
-            <option value="monthly">Monthly</option>
-            <option value="weekly">Weekly</option>
+            <!-- <option value="monthly">Monthly</option>
+            <option value="weekly">Weekly</option> -->
           </select>
         </div>
         
         <div class="input-group">
           <label>Duration</label>
           <select id="duration" class="calc-input">
-            <option value="1">1 month</option>
-            <option value="3" selected>3 months</option>
-            <option value="6">6 months</option>
+            <option value="1">8-12weeks</option>
+            <!-- <option value="3" selected>3 months</option>
+            <option value="6">6 months</option> -->
           </select>
         </div>
         
@@ -525,18 +525,26 @@
 
       </div>
       
-      <!-- RIGHT PANEL: COMPARISON -->
-      <div class="calc-panel comparison-panel">
-        <h3 class="panel-title">VS Standard Savings Account</h3>
-        <div class="comparison-value" id="comparison-value">+$250</div>
-        <div class="comparison-subtext">
-          <span id="comparison-percent">33%</span> higher than saving<br>
-          Average savings return: 10%
-        </div>
+<!-- RIGHT PANEL: COMPARISON -->
+<div class="calc-panel comparison-panel">
+  <h3 class="panel-title">VS Other Traditional Investments</h3>
+  
+  <!-- Actual savings return (simple number) -->
+  <div class="comparison-savings-amount" id="savings-return">
+    $0.00
+  </div>
+  
+  <!-- Percentage higher -->
+  <div class="comparison-percent" id="comparison-percent">
+    0% higher
+  </div>
+  
+  <div class="comparison-subtext">
+    Average savings return: 10%
+  </div>
 
- <p class="card-footnote">🏦 Average Nigerian savings rate ~10%</p>
-
-      </div>
+  <p class="card-footnote">🏦 Average Nigerian savings rate ~10%</p>
+</div>
       
     </div>
   </div>
@@ -1236,7 +1244,7 @@
   <div class="download-container">
     
     <div class="download-mockup right">
-      <img src="your-phone-mockup.PNG" alt="JMJ Trading App - Get forex signals on your phone" class="mockup-image">
+      <img src="your-phone-mockup.png" alt="JMJ Trading App - Get forex signals on your phone" class="mockup-image">
       <div class="mockup-glow"></div>
     </div>
     
