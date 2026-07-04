@@ -1966,6 +1966,140 @@ body {
   }
 }
 
+/* ===== COMMUNITY RIBBON ===== */
+.community-ribbon {
+  display: block;
+ max-width: 750px; /* 👈 Controls the width */
+  margin: 40px auto 0; /* Centers it */
+  padding: 20px 25px;
+  background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+  /* border: 2px solid var(--gold);
+  border-radius: 16px; */
+  text-decoration: none;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+}
+
+/* Animated glow effect */
+.community-ribbon::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.1), transparent, rgba(212, 175, 55, 0.1), transparent);
+  animation: ribbonSpin 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes ribbonSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.community-ribbon:hover {
+  transform: scale(1.02);
+  border-color: #ffd700;
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+}
+
+.ribbon-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.ribbon-icon {
+  font-size: 32px;
+  animation: ribbonPulse 2s ease-in-out infinite;
+}
+
+@keyframes ribbonPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.ribbon-text {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.ribbon-arrow {
+  font-size: 28px;
+  color: var(--gold);
+  transition: all 0.3s ease;
+}
+
+.community-ribbon:hover .ribbon-arrow {
+  transform: translateX(10px);
+}
+
+.ribbon-subtext {
+  display: block;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .community-ribbon {
+    padding: 16px 18px;
+    margin-top: 30px;
+  }
+  
+  .ribbon-text {
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  .ribbon-icon {
+    font-size: 26px;
+  }
+  
+  .ribbon-arrow {
+    font-size: 22px;
+  }
+  
+  .ribbon-subtext {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ribbon-content {
+    gap: 10px;
+  }
+  
+  .ribbon-text {
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+  
+  .ribbon-icon {
+    font-size: 20px;
+  }
+  
+  .ribbon-arrow {
+    font-size: 18px;
+  }
+}
+
 /* ===== TESTIMONIAL WALL - DOUBLE SCROLLING ===== */
 .testimonial-section {
   padding: 30px 0;
@@ -4122,6 +4256,33 @@ select.calc-input {
   color: var(--border-color);
 }
 
+/* ===== PROFIT SPLIT WRAPPER ===== */
+.profit-split-wrapper {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.split-title {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.profit-split {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 15px;
+  background: var(--bg-secondary);
+  border-radius: 40px;
+  flex-wrap: wrap;
+}
+
 /* Comparison Panel - Updated */
 .comparison-savings-amount {
   font-size: 36px;
@@ -4366,6 +4527,7 @@ select.calc-input {
         margin-right: 10px;
         padding: 3px 8px;
         min-width: 60px;
+        display: none !important;
     }
     
     .pill-icon {
